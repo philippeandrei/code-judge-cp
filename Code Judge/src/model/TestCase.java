@@ -9,6 +9,12 @@ public class TestCase {
     private String input;
     private String expectedOutput;
 
+    public TestCase(UUID problemId, String input, String expectedOutput){
+        this.id = UUID.randomUUID();
+        this.problemId = problemId;
+        this.input = input;
+        this.expectedOutput = expectedOutput;
+    }
     public UUID getId() {
         return id;
     }
