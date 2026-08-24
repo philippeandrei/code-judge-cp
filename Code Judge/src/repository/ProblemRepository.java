@@ -29,9 +29,7 @@ public class ProblemRepository implements CrudRepository<Problem, UUID>{
     public boolean deleteById(UUID id){
         return (problems.remove(id) != null);
     }
-    public Problem addTestCaseById(UUID id, TestCase testCase){
 
-    }
 
     public Optional<Problem> getProblemByTitle(String title){
         for(Problem problem: problems.values()){

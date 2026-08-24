@@ -30,13 +30,14 @@ public class ProblemService {
 
     public void deleteProblemById(UUID id) throws ProblemNotFoundException {
         if(!problemRepository.deleteById(id))
-            new ProblemNotFoundException("Can not find aby problem with id: " + id);
+           throw new ProblemNotFoundException("Can not find aby problem with id: " + id);
     }
 
     public void addTestCaseToProblem(UUID problemId, String input, String expectedOutput) throws ProblemNotFoundException{
         Problem problem = getProblemById(problemId);
         TestCase testCase = new TestCase(problemId, input, expectedOutput);
-
+        //nu creez test case separat in Main, creez direct aici in ProblemService
+        //
         problem.addTestCase(testCase);
 
         problemRepository.save(problem);

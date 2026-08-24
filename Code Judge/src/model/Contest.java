@@ -1,10 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Contest {
     private UUID id;
@@ -12,16 +9,19 @@ public class Contest {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private List<Problem> problems;
+    //aici ai putea sa tii o lista de problems
 
     public Contest(String name, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.problems = new ArrayList<>();
     }
 
     public void addProblem(Problem problem){
-        this.problems.add(problem);
+        if(!this.problems.contains(problem))
+            this.problems.add(problem);
     }
 
 
@@ -42,7 +42,7 @@ public class Contest {
         this.name = name;
     }
 
-    public LocalDateTime getStateTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
