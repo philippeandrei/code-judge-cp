@@ -17,6 +17,7 @@ public class ProblemService {
     //String title, String statement, long timeLimitMs, long memoryLimitKb) {
     public Problem createProblem(String title, String statement, long timeLimitMs, long memoryLimitKb) {
         Problem problem = new Problem(title, statement, timeLimitMs, memoryLimitKb);
+        problemRepository.save(problem);
         return problem;
     }
 

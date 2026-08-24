@@ -12,6 +12,14 @@ public class Submission {
     private SubmissionStatusEnum status;
     private LocalDateTime submittedTime;
 
+    public Submission(UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime){
+        this.id = UUID.randomUUID();
+        this.userId = userId;
+        this.problemId = problemId;
+        this.sourceCode = sourceCode;
+        this.status = SubmissionStatusEnum.PENDING;
+        this.submittedTime = submittedTime;
+    }
 
     @Override
     public boolean equals(Object o) {
