@@ -7,6 +7,7 @@ public class User {
     private UUID id;
     private String username;
     private String email;
+    public User() {}
     public User( String username, String email){
         this.id = UUID.randomUUID();
         this.username = username;

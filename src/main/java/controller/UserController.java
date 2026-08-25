@@ -4,6 +4,8 @@ import exception.UserNotFoundException;
 import model.User;
 import service.UserService;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public class UserController {
@@ -14,7 +16,7 @@ public class UserController {
     }
 
     //create-user <username> <email>
-    public void handleCreateUser(String username, String email) {
+    public void handleCreateUser(String username, String email) throws IOException {
         if (username == null || email == null) {
             System.out.println("[Syntax error] Use valid username and email");
             return;
@@ -52,6 +54,19 @@ public class UserController {
     public void handleDeleteUserById(UUID id){
         try{
             userService.deleteUserById(id);
+        } catch (UserNotFoundException e) {
+            System.out.println("[User not found error] " + e);
+        }  catch (Exception e) {
+            System.out.println("[Unknown error] " + e);
+        }
+    }
+    //get-all-users
+    public void handleGetAllUsers(){
+        try {
+            List<User> users = userService.getAllUsers();
+            for(User user: users){
+                System.out.println("User: " + user.getUsername() + ", id: " + user.getId());
+            }
         } catch (UserNotFoundException e) {
             System.out.println("[User not found error] " + e);
         }  catch (Exception e) {

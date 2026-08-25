@@ -3,7 +3,6 @@ package controller;
 import exception.ContestNotFoundException;
 import exception.ProblemNotFoundException;
 import model.Contest;
-import model.Problem;
 import service.ContestService;
 import service.ProblemService;
 

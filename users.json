@@ -1,0 +1,25 @@
+[ {
+  "id" : "9f8e7d6c-5b4a-3f2e-1d0c-9b8a7f6e5d4c",
+  "username" : "vlad_david",
+  "email" : "vlad.david@example.com"
+}, {
+  "id" : "8e30b491-0ae0-46a4-9f98-28b88916adb6",
+  "username" : "phi",
+  "email" : "123"
+}, {
+  "id" : "123e4567-e89b-12d3-a456-426614174000",
+  "username" : "andrei_popescu",
+  "email" : "andrei.popescu@example.com"
+}, {
+  "id" : "09ceb42b-4711-48bf-acca-faf28e2c7bf6",
+  "username" : "andrei",
+  "email" : "123"
+}, {
+  "id" : "559926d1-7605-4ee5-a21a-e65cc9f78553",
+  "username" : "andrei",
+  "email" : "email"
+}, {
+  "id" : "4da68134-1e78-428f-b4c8-bbc1310ccbdc",
+  "username" : "andrei",
+  "email" : "1234"
+} ]

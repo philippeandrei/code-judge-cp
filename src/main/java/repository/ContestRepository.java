@@ -5,7 +5,7 @@ import model.Contest;
 import java.util.*;
 
 public class ContestRepository implements CrudRepository<Contest, UUID>{
-    HashMap<UUID, Contest> contests;
+    HashMap<UUID, Contest> contests = new HashMap<>();
     @Override
     public Contest save(Contest contest){
         contests.put(contest.getId(), contest);

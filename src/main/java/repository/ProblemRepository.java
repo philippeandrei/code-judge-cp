@@ -1,13 +1,11 @@
 package repository;
 
 import model.Problem;
-import model.TestCase;
-import model.User;
 
 import java.util.*;
 
 public class ProblemRepository implements CrudRepository<Problem, UUID>{
-    HashMap<UUID, Problem> problems;
+    HashMap<UUID, Problem> problems = new HashMap<>();
     @Override
     public Problem save(Problem problem){
         problems.put(problem.getId(), problem);
