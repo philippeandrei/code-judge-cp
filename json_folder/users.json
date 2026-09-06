@@ -11,6 +11,10 @@
   "username" : "andrei_popescu",
   "email" : "andrei.popescu@example.com"
 }, {
+  "id" : "07976193-30a5-4c76-88fd-d21faec36a2e",
+  "username" : "philippe andrei",
+  "email" : "phil@gmail.com"
+}, {
   "id" : "09ceb42b-4711-48bf-acca-faf28e2c7bf6",
   "username" : "andrei",
   "email" : "123"
@@ -22,4 +26,8 @@
   "id" : "4da68134-1e78-428f-b4c8-bbc1310ccbdc",
   "username" : "andrei",
   "email" : "1234"
+}, {
+  "id" : "0714d0a6-d3ca-4afb-b95e-c26371809073",
+  "username" : "philippe",
+  "email" : "p@p.com"
 } ]

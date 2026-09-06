@@ -11,6 +11,10 @@ public class Contest {
     private List<Problem> problems;
     //aici ai putea sa tii o lista de problems
 
+    public Contest() {
+        this.problems = new ArrayList<>();
+    }
+
     public Contest(String name, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = UUID.randomUUID();
         this.name = name;
@@ -46,8 +50,8 @@ public class Contest {
         return startTime;
     }
 
-    public void setStateTime(LocalDateTime stateTime) {
-        this.startTime = stateTime;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public LocalDateTime getEndTime() {

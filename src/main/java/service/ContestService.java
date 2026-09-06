@@ -7,6 +7,7 @@ import model.Problem;
 import repository.ContestRepository;
 import repository.ProblemRepository;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public class ContestService {
         this.contestRepository = contestRepository;
         this.problemRepository = problemRepository;
     }
-    public Contest createContest(String name, LocalDateTime startTime, LocalDateTime endTime){
+    public Contest createContest(String name, LocalDateTime startTime, LocalDateTime endTime) throws IOException {
         Contest contest = new Contest(name, startTime, endTime);
         contestRepository.save(contest);
         return contest;
@@ -30,12 +31,12 @@ public class ContestService {
     public Contest getContestByName(String name) throws ContestNotFoundException{
         return contestRepository.getContestByName(name).orElseThrow(() -> new ContestNotFoundException("Can not find contest with name: " + name));
     }
-    public void deleteProblemById(UUID id) throws ContestNotFoundException {
+    public void deleteProblemById(UUID id) throws ContestNotFoundException, IOException {
         if(!contestRepository.deleteById(id))
             throw new ContestNotFoundException("Can not found contest with id: " + id);
     }
 
-    public void addProblemToContest(UUID problemId, UUID contestID) throws ContestNotFoundException, ProblemNotFoundException {
+    public void addProblemToContest(UUID problemId, UUID contestID) throws ContestNotFoundException, ProblemNotFoundException, IOException {
         Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("Can not find problem: " + problemId));
 
         Contest contest = contestRepository.findById(contestID).orElseThrow(() -> new ContestNotFoundException("can not find contest: " + contestID));

@@ -13,7 +13,7 @@ import java.util.*;
 public class UserRepository implements CrudRepository<User, UUID> {
     HashMap<UUID, User> users = new HashMap<>();
     ObjectMapper mapper = new ObjectMapper();
-    private final String FILE_PATH =  "users.json";
+    private final String FILE_PATH =  "json_folder/users.json";
     public UserRepository() {
         loadFromFile();
 

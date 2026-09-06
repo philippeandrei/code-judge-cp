@@ -6,6 +6,7 @@ import model.Contest;
 import service.ContestService;
 import service.ProblemService;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class ContestController {
 
     //create-contest <name> <startTime> <endTime>
 
-    public void handleCreateProblem(String name, LocalDateTime startTime, LocalDateTime endTime) {
+    public void handleCreateContest(String name, LocalDateTime startTime, LocalDateTime endTime) throws IOException {
         if (name == null || startTime.isBefore(LocalDateTime.now()) || endTime.isBefore(startTime) || endTime.isEqual(startTime)) {
             System.out.println("[Syntax error] Use valid name, startTime end endTime");
             return;
@@ -85,7 +86,7 @@ public class ContestController {
         }
         try{
 
-            contestService.addProblemToContest(contestID, problemID);
+            contestService.addProblemToContest(problemID, contestID);
             System.out.println("Added problem to contest succesfully");
 
 

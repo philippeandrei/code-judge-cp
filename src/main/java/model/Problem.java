@@ -14,6 +14,11 @@ public class Problem {
     private List<TestCase> testCases;
     private List<Category> categories;
 
+    public Problem() {
+        this.testCases = new ArrayList<>();
+        this.categories = new ArrayList<>();
+    }
+
     public Problem(String title, String statement, long timeLimitMs, long memoryLimitKb) {
         this.id = UUID.randomUUID();
         this.title = title;
