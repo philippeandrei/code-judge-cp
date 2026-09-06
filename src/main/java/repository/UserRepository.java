@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exception.DataAccessException;
 import model.User;
 
 import java.io.File;
@@ -21,7 +22,9 @@ public class UserRepository implements CrudRepository<User, UUID> {
     public void loadFromFile(){
         try {
             File file = new File(FILE_PATH);
-
+            if (!file.exists()) {
+                return; //am creat fisierul ca nu exista
+            }
             List<User> usersList = mapper.readValue(file, new TypeReference<List<User>>() {});
 
             for (User user : usersList) {
@@ -29,21 +32,21 @@ public class UserRepository implements CrudRepository<User, UUID> {
                 users.put(user.getId(), user);
             }
         } catch (IOException e) {
-            System.out.println("Error loading from users.json");
+            throw new DataAccessException("Failed to load users from " + FILE_PATH, e);
         }
     }
 
-    public void saveToFile() throws IOException {
+    public void saveToFile()  {
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), users.values());
         } catch (IOException e) {
-            System.out.println("Error saving to " + FILE_PATH);
+            throw new DataAccessException("Failed to save data to " + FILE_PATH, e);
         }
     }
 
 
     @Override
-    public User save(User user) throws IOException {
+    public User save(User user)  {
         users.put(user.getId(), user);
         saveToFile();
         return user;
@@ -61,7 +64,7 @@ public class UserRepository implements CrudRepository<User, UUID> {
     }
 
     @Override
-    public boolean deleteById(UUID uuid) throws IOException {
+    public boolean deleteById(UUID uuid)  {
 
         User user = users.remove(uuid);
         if(user != null){

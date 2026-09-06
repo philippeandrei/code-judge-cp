@@ -1,7 +1,6 @@
 package controller;
 
-import exception.ContestNotFoundException;
-import exception.ProblemNotFoundException;
+import exception.*;
 import model.Contest;
 import service.ContestService;
 import service.ProblemService;
@@ -21,13 +20,19 @@ public class ContestController {
 
     //create-contest <name> <startTime> <endTime>
 
-    public void handleCreateContest(String name, LocalDateTime startTime, LocalDateTime endTime) throws IOException {
-        if (name == null || startTime.isBefore(LocalDateTime.now()) || endTime.isBefore(startTime) || endTime.isEqual(startTime)) {
+    public void handleCreateContest(String name, LocalDateTime startTime, LocalDateTime endTime) {
+        if (name == null ) {
             System.out.println("[Syntax error] Use valid name, startTime end endTime");
             return;
         }
-        contestService.createContest(name, startTime, endTime);
-        System.out.println("Contest created");
+        try {
+            contestService.createContest(name, startTime, endTime);
+            System.out.println("Contest created");
+        } catch (ValidationException e) {
+            System.out.println("[Validation error] " + e.getMessage());
+        } catch (CodeJudgeException e) {
+            System.out.println("[Error] " + e.getMessage());
+        }
     }
 
     //get-contest-id <id>
@@ -68,7 +73,7 @@ public class ContestController {
             return;
         }
         try {
-          contestService.deleteProblemById(id);
+          contestService.deleteContestById(id);
           System.out.println("Deleted contest succesfully");
         } catch (ContestNotFoundException e) {
             System.out.println("[Contest not found exception] " + e.getMessage());
@@ -87,16 +92,15 @@ public class ContestController {
         try{
 
             contestService.addProblemToContest(problemID, contestID);
-            System.out.println("Added problem to contest succesfully");
+            System.out.println("Added problem to contest successfully");
 
 
-        } catch (ContestNotFoundException e) {
-            System.out.println("[Contest not found exception] " + e.getMessage());
-        } catch (ProblemNotFoundException e) {
-            System.out.println("[Problem not found exception] " + e.getMessage());
-
+        }  catch (EntityNotFoundException e) {
+            System.out.println("[Not Found Error] " + e.getMessage());
+        } catch (ValidationException e) {
+            System.out.println("[Validation Error] " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("[Unknown error] " + e.getMessage());
+            System.out.println("[Unexpected Error] " + e.getMessage());
         }
     }
 

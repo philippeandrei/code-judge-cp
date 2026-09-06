@@ -2,6 +2,7 @@ package repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exception.DataAccessException;
 import model.Contest;
 import model.Problem;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -24,7 +25,9 @@ public class ContestRepository implements CrudRepository<Contest, UUID>{
     public void loadFromFile(){
         try {
             File file = new File(FILE_PATH);
-
+            if (!file.exists()) {
+                return; //am creat fisierul ca nu exista
+            }
             List<Contest> contestList = mapper.readValue(file, new TypeReference<List<Contest>>() {});
 
             for (Contest contest : contestList) {
@@ -32,18 +35,18 @@ public class ContestRepository implements CrudRepository<Contest, UUID>{
                 contests.put(contest.getId(), contest);
             }
         } catch (IOException e) {
-            System.out.println("Error loading from " + FILE_PATH);
+            throw new DataAccessException("Failed to load contests from " + FILE_PATH, e);
         }
     }
-    public void saveToFile() throws IOException {
+    public void saveToFile()  {
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), contests.values());
         } catch (IOException e) {
-            System.out.println("Error saving to " + FILE_PATH);
+            throw new DataAccessException("Failed to save data to " + FILE_PATH, e);
         }
     }
     @Override
-    public Contest save(Contest contest) throws IOException {
+    public Contest save(Contest contest)  {
         contests.put(contest.getId(), contest);
         saveToFile();
         return contest;
@@ -58,7 +61,7 @@ public class ContestRepository implements CrudRepository<Contest, UUID>{
         return new ArrayList<>(contests.values());
     }
     @Override
-    public boolean deleteById(UUID id) throws IOException {
+    public boolean deleteById(UUID id)  {
         Contest contest = contests.remove(id);
         if(contest != null){
             saveToFile();

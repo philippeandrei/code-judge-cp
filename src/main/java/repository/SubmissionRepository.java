@@ -44,7 +44,7 @@ public class SubmissionRepository implements CrudRepository <Submission, UUID>{
     public List<Submission> getSubmissionsOfUser(UUID userID){
         List<Submission> submissionsOfUser = new ArrayList<>();
         for(Submission submission : submissions.values()){
-            if(submission.getProblemId().equals(userID)){
+            if(submission.getUserId().equals(userID)){
                 submissionsOfUser.add(submission);
             }
         }

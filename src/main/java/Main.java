@@ -122,7 +122,7 @@ public class Main {
                 case "add-test-case":
                     //add-test-case <problemId> <input> <expectedOutput>
                     if (tokens.size() != 4) {
-                        System.out.print("[Syntax Error] Use command: create-problem \"<title>\" \"<statement>\" <timeLimitMs> <memoryLimitKb>");
+                        System.out.println("[Syntax Error] Use command: add-test-case <problemId> \"<input>\" \"<expectedOutput>\"");
                         break;
                     }
 
@@ -217,6 +217,7 @@ public class Main {
                     break;
             }
         } catch (Exception e) {
+            System.out.print("[Unkown exception] " + e.getMessage());
 
         }
     }

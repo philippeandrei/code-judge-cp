@@ -16,26 +16,26 @@ public class ProblemService {
     }
 
     //String title, String statement, long timeLimitMs, long memoryLimitKb) {
-    public Problem createProblem(String title, String statement, long timeLimitMs, long memoryLimitKb) throws IOException {
+    public Problem createProblem(String title, String statement, long timeLimitMs, long memoryLimitKb)  {
         Problem problem = new Problem(title, statement, timeLimitMs, memoryLimitKb);
         problemRepository.save(problem);
         return problem;
     }
 
-    public Problem getProblemById(UUID id) throws ProblemNotFoundException {
+    public Problem getProblemById(UUID id)  {
         return problemRepository.findById(id).orElseThrow(() -> new ProblemNotFoundException("Can not find any problem with the id: " + id));
     }
 
-    public Problem getProblemByTitle(String title) throws ProblemNotFoundException {
+    public Problem getProblemByTitle(String title)  {
         return problemRepository.getProblemByTitle(title).orElseThrow(()-> new ProblemNotFoundException("Can not find any problem with the title: " + title));
     }
 
-    public void deleteProblemById(UUID id) throws ProblemNotFoundException, IOException {
+    public void deleteProblemById(UUID id)  {
         if(!problemRepository.deleteById(id))
-           throw new ProblemNotFoundException("Can not find aby problem with id: " + id);
+           throw new ProblemNotFoundException("Can not find any problem with id: " + id);
     }
 
-    public void addTestCaseToProblem(UUID problemId, String input, String expectedOutput) throws ProblemNotFoundException, IOException {
+    public void addTestCaseToProblem(UUID problemId, String input, String expectedOutput)  {
         Problem problem = getProblemById(problemId);
         TestCase testCase = new TestCase(problemId, input, expectedOutput);
         //nu creez test case separat in Main, creez direct aici in ProblemService

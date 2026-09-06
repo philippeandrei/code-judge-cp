@@ -22,7 +22,7 @@ public class SubmissionService {
         return submission;
     }
 
-    public Submission getSubmissionById(UUID id) throws SubmissionNotFoundException{
+    public Submission getSubmissionById(UUID id) {
         return submissionRepository.findById(id).orElseThrow(() -> new SubmissionNotFoundException("Couldn't find submission: " + id));
     }
 

@@ -1,5 +1,7 @@
 package controller;
 
+import exception.CodeJudgeException;
+import exception.DataAccessException;
 import exception.UserNotFoundException;
 import model.User;
 import service.UserService;
@@ -16,14 +18,17 @@ public class UserController {
     }
 
     //create-user <username> <email>
-    public void handleCreateUser(String username, String email) throws IOException {
+    public void handleCreateUser(String username, String email)  {
         if (username == null || email == null) {
             System.out.println("[Syntax error] Use valid username and email");
             return;
         }
-
-        userService.registerUser(username, email);
-        System.out.println("User created.");
+        try {
+            userService.registerUser(username, email);
+            System.out.println("User created.");
+        } catch (CodeJudgeException e) {
+            System.out.println("[Error saving user] " + e.getMessage());
+        }
 
     }
     //get-user-id <id>
@@ -54,6 +59,7 @@ public class UserController {
     public void handleDeleteUserById(UUID id){
         try{
             userService.deleteUserById(id);
+            System.out.println("User deleted successfully.");
         } catch (UserNotFoundException e) {
             System.out.println("[User not found error] " + e);
         }  catch (Exception e) {
@@ -67,9 +73,7 @@ public class UserController {
             for(User user: users){
                 System.out.println("User: " + user.getUsername() + ", id: " + user.getId());
             }
-        } catch (UserNotFoundException e) {
-            System.out.println("[User not found error] " + e);
-        }  catch (Exception e) {
+        }   catch (Exception e) {
             System.out.println("[Unknown error] " + e);
         }
     }

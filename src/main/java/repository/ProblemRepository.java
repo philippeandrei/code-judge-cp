@@ -2,6 +2,7 @@ package repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exception.DataAccessException;
 import model.Problem;
 import model.User;
 
@@ -19,7 +20,9 @@ public class ProblemRepository implements CrudRepository<Problem, UUID>{
     public void loadFromFile(){
         try {
             File file = new File(FILE_PATH);
-
+            if (!file.exists()) {
+                return; //am creat fisierul ca nu exista
+            }
             List<Problem> problemList = mapper.readValue(file, new TypeReference<List<Problem>>() {});
 
             for (Problem problem : problemList) {
@@ -27,21 +30,21 @@ public class ProblemRepository implements CrudRepository<Problem, UUID>{
                 problems.put(problem.getId(), problem);
             }
         } catch (IOException e) {
-            System.out.println("Error loading from " + FILE_PATH);
+            throw new DataAccessException("Failed to load problems from " + FILE_PATH, e);
         }
     }
-    public void saveToFile() throws IOException {
+    public void saveToFile()  {
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), problems.values());
         } catch (IOException e) {
-            System.out.println("Error saving to " + FILE_PATH);
+            throw new DataAccessException("Failed to save data to " + FILE_PATH, e);
         }
     }
 
 
 
     @Override
-    public Problem save(Problem problem) throws IOException {
+    public Problem save(Problem problem)  {
         problems.put(problem.getId(), problem);
         saveToFile();
         return problem;
@@ -59,13 +62,13 @@ public class ProblemRepository implements CrudRepository<Problem, UUID>{
     }
 
     @Override
-    public boolean deleteById(UUID id) throws IOException {
+    public boolean deleteById(UUID id)  {
         Problem problem = problems.remove(id);
         if(problem != null){
             saveToFile();
             return true;
         }
-        return (problems.remove(id) != null);
+        return false;
     }
 
 

@@ -1,5 +1,6 @@
 package controller;
 
+import exception.CodeJudgeException;
 import exception.ProblemNotFoundException;
 import model.Problem;
 import service.ProblemService;
@@ -16,14 +17,18 @@ public class ProblemController {
     //String title, String statement, long timeLimitMs, long memoryLimitKb) {
 
     //create-problem <title> <statement> <timeLimitMs> <memoryLimitKb>
-    public void handleCreateProblem(String title, String statement, long timeLimitMs, long memoryLimitKb) throws IOException {
+    public void handleCreateProblem(String title, String statement, long timeLimitMs, long memoryLimitKb) {
         if(title == null || statement == null || timeLimitMs == 0 || memoryLimitKb == 0){
             System.out.println("[Syntax error] Use valid title, statement or Limits above 0");
             return;
         }
+        try {
+            problemService.createProblem(title, statement, timeLimitMs, memoryLimitKb);
+            System.out.println("Problem saved.");
+        } catch (CodeJudgeException e){
+            System.out.println("[Error creating problem]" + e.getMessage());
 
-        problemService.createProblem(title, statement, timeLimitMs, memoryLimitKb);
-        System.out.println("Problem saved.");
+        }
 
     }
     //add-test-case <problemId> <input> <expectedOutput>
