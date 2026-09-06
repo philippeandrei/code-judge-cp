@@ -1,13 +1,47 @@
 package repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import exception.DataAccessException;
 import model.Submission;
+import model.User;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class SubmissionRepository implements CrudRepository <Submission, UUID>{
 
     HashMap<UUID, Submission> submissions = new HashMap<>();
+    ObjectMapper mapper = new ObjectMapper();
+    private final String FILE_PATH =  "json_folder/submissions.json";
+    public SubmissionRepository(){
+        loadFromFile();
+    }
+    public void loadFromFile(){
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                return; //am creat fisierul ca nu exista
+            }
+            List<Submission> submissionsList = mapper.readValue(file, new TypeReference<List<Submission>>() {});
 
+            for (Submission submission : submissionsList) {
+//                System.out.println("ID: " + user.getId() + " | Username: " + user.getUsername());
+                submissions.put(submission.getId(), submission);
+            }
+        } catch (IOException e) {
+            throw new DataAccessException("Failed to load submission from " + FILE_PATH, e);
+        }
+    }
+
+    public void saveToFile()  {
+        try {
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), submissions.values());
+        } catch (IOException e) {
+            throw new DataAccessException("Failed to save data to " + FILE_PATH, e);
+        }
+    }
     @Override
     public Submission save(Submission submission) {
         submissions.put(submission.getId(), submission);
