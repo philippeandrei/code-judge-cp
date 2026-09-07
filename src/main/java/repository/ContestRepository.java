@@ -25,7 +25,7 @@ public class ContestRepository implements CrudRepository<Contest, UUID>{
     public void loadFromFile(){
         try {
             File file = new File(FILE_PATH);
-            if (!file.exists()) {
+            if (!file.exists() || file.length() == 0) {
                 return; //am creat fisierul ca nu exista
             }
             List<Contest> contestList = mapper.readValue(file, new TypeReference<List<Contest>>() {});

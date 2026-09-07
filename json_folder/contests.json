@@ -1,15 +1,1 @@
-[ {
-  "id" : "99314fe4-3d42-45dc-9d17-2e787b8eb6a7",
-  "name" : "my contest",
-  "startTime" : "2026-10-10T10:10:00",
-  "endTime" : "2026-10-15T10:10:00",
-  "problems" : [ {
-    "id" : "f798f433-b00f-4d38-a647-e8491472d398",
-    "title" : "figiderele mariei",
-    "statement" : "testtest test",
-    "timeLimitMs" : 213,
-    "memoryLimitKb" : 245,
-    "testCases" : [ ],
-    "categories" : [ ]
-  } ]
-} ]
+[ ]

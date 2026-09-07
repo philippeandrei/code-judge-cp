@@ -22,8 +22,8 @@ public class UserRepository implements CrudRepository<User, UUID> {
     public void loadFromFile(){
         try {
             File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                return; //am creat fisierul ca nu exista
+            if (!file.exists() || file.length() == 0) {
+                return;
             }
             List<User> usersList = mapper.readValue(file, new TypeReference<List<User>>() {});
 
