@@ -1,1 +1,15 @@
-[ ]
+[ {
+  "id" : "8c9c92cd-a3bd-4c83-9fd2-1a010c6dcb3f",
+  "name" : "official contest",
+  "startTime" : "2026-10-10T10:10:00",
+  "endTime" : "2026-10-16T10:10:00",
+  "problems" : [ {
+    "id" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+    "title" : "My first problem",
+    "statement" : "blabv al",
+    "timeLimitMs" : 2500,
+    "memoryLimitKb" : 2500,
+    "testCases" : [ ],
+    "categories" : [ ]
+  } ]
+} ]

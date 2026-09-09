@@ -8,27 +8,12 @@ public class TestCase {
     private UUID problemId;
     private String input;
     private String expectedOutput;
+    public TestCase(){
 
-    public TestCase(UUID problemId, String input, String expectedOutput){
-        this.id = UUID.randomUUID();
-        this.problemId = problemId;
+    }
+    public TestCase( String input, String expectedOutput){
         this.input = input;
         this.expectedOutput = expectedOutput;
-    }
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getProblemId() {
-        return problemId;
-    }
-
-    public void setProblemId(UUID problemId) {
-        this.problemId = problemId;
     }
 
     public String getInput() {

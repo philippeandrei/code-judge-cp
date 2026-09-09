@@ -1,10 +1,12 @@
 import controller.ContestController;
+import controller.JudgeController;
 import controller.ProblemController;
 import controller.UserController;
 import repository.ContestRepository;
 import repository.ProblemRepository;
 import repository.UserRepository;
 import service.ContestService;
+import service.JudgeService;
 import service.ProblemService;
 import service.UserService;
 
@@ -37,6 +39,9 @@ public class Main {
         ContestService contestService = new ContestService(contestRepository, problemRepository);
         ContestController contestController = new ContestController(contestService, problemService);
 
+        JudgeService judgeService = new JudgeService();
+        JudgeController judgeController = new JudgeController(judgeService);
+
         Scanner sc = new Scanner(System.in);
 
         while (true) {
@@ -47,12 +52,12 @@ public class Main {
                 System.out.print("Session terminated");
                 break;
             }
-            processCommand(command, userController, problemController, contestController);
+            processCommand(command, userController, problemController, contestController, judgeController);
         }
         sc.close();
     }
 
-    public static void processCommand(String input, UserController userController, ProblemController problemController, ContestController contestController) {
+    public static void processCommand(String input, UserController userController, ProblemController problemController, ContestController contestController, JudgeController judgeController) {
 
         List<String> tokens = parseTokens(input);
         if (tokens.isEmpty()) {
@@ -211,9 +216,24 @@ public class Main {
                     }
                     contestController.handleAddProblemToContest(UUID.fromString(tokens.get(1)), UUID.fromString(tokens.get(2)));
                     break;
-
+                case "test-judge":
+                    //test-judge <path>
+                    if(tokens.size() != 2){
+                        System.out.println("[Syntax Error] Use command: test-judge <path>");
+                        break;
+                    }
+                    String path = tokens.get(1);
+                    judgeController.handleTestJudge(path);
+                    break;
                 default:
                     System.out.print("For all commands check the available documentation");
+                    break;
+                case "submit":
+                    if(tokens.size() != 4){
+                        System.out.println("[Syntax Error] Use command: submit <userID> <problemID> <pathToFile>");
+                        break;
+                    }
+                    judgeController.handleSubmit(UUID.fromString(tokens.get(1)), UUID.fromString(tokens.get(2)), tokens.get(3));
                     break;
             }
         } catch (Exception e) {

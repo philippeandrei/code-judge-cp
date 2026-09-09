@@ -37,7 +37,7 @@ public class ProblemService {
 
     public void addTestCaseToProblem(UUID problemId, String input, String expectedOutput)  {
         Problem problem = getProblemById(problemId);
-        TestCase testCase = new TestCase(problemId, input, expectedOutput);
+        TestCase testCase = new TestCase( input, expectedOutput);
         //nu creez test case separat in Main, creez direct aici in ProblemService
         //
         problem.addTestCase(testCase);

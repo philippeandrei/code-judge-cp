@@ -11,7 +11,9 @@ public class Submission {
     private String sourceCode;
     private SubmissionStatusEnum status;
     private LocalDateTime submittedTime;
+    public Submission(){
 
+    }
     public Submission(UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime){
         this.id = UUID.randomUUID();
         this.userId = userId;

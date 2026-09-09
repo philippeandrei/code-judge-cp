@@ -1,4 +1,18 @@
 [ {
+  "id" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+  "title" : "My first problem",
+  "statement" : "blabv al",
+  "timeLimitMs" : 2500,
+  "memoryLimitKb" : 2500,
+  "testCases" : [ {
+    "input" : "10 20",
+    "expectedOutput" : "30"
+  }, {
+    "input" : "20 20",
+    "expectedOutput" : "50"
+  } ],
+  "categories" : [ ]
+}, {
   "id" : "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
   "title" : "My problem2",
   "statement" : "Write a c++ program that...",

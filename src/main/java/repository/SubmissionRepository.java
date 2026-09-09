@@ -2,6 +2,8 @@ package repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import exception.DataAccessException;
 import model.Submission;
 import model.User;
@@ -16,12 +18,14 @@ public class SubmissionRepository implements CrudRepository <Submission, UUID>{
     ObjectMapper mapper = new ObjectMapper();
     private final String FILE_PATH =  "json_folder/submissions.json";
     public SubmissionRepository(){
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         loadFromFile();
     }
     public void loadFromFile(){
         try {
             File file = new File(FILE_PATH);
-            if (!file.exists()) {
+            if (!file.exists() || file.length() == 0 ) {
                 return; //am creat fisierul ca nu exista
             }
             List<Submission> submissionsList = mapper.readValue(file, new TypeReference<List<Submission>>() {});
@@ -45,6 +49,7 @@ public class SubmissionRepository implements CrudRepository <Submission, UUID>{
     @Override
     public Submission save(Submission submission) {
         submissions.put(submission.getId(), submission);
+        saveToFile();
         return submission;
     }
 
@@ -62,7 +67,12 @@ public class SubmissionRepository implements CrudRepository <Submission, UUID>{
 
     @Override
     public boolean deleteById(UUID id) {
-        return (submissions.remove(id) != null);
+        Submission submission = submissions.remove(id);
+        if(submission != null){
+            saveToFile();
+            return true;
+        }
+        return false;
     }
 
     public List<Submission> getSubmissionsOfProblem(UUID problemId){
