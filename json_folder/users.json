@@ -1,5 +1,13 @@
 [ {
-  "id" : "e480d131-e835-4e7a-b71f-d5e139c9f605",
-  "username" : "philippe",
+  "id" : null,
+  "username" : "john_doe",
+  "email" : "john.doe@example.com"
+}, {
+  "id" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "username" : "andrei",
   "email" : "p@gmail.com"
+}, {
+  "id" : "f08e7689-abe2-4c5c-af8f-fa3ec549188c",
+  "username" : "john_doe2",
+  "email" : "john.doe2@example.com"
 } ]

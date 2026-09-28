@@ -1,0 +1,17 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+GET localhost:7070/
+
+###
+GET localhost:7070/api/user
+
+###
+POST localhost:7070/api/problem
+Content-Type: application/json
+
+{
+  "username": "philippe"
+}

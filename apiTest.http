@@ -1,0 +1,27 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+GET localhost:7070
+
+###
+GET localhost:7070/api/users
+
+###
+GET localhost:7070/api/users?username=philippe
+
+###
+GET localhost:7070/api/users?id=e480d131-e835-4e7a-b71f-d5e139c9f605
+
+###
+POST http://localhost:7070/api/users
+Content-Type: application/json
+
+{
+  "username": "john_doe2",
+  "email": "john.doe2@example.com"
+}
+
+###
+DELETE http://localhost:7070/api/users?id=e480d131-e835-4e7a-b71f-d5e139c9f605

@@ -1,7 +1,9 @@
+import apiController.UserApiController;
 import controller.ContestController;
 import controller.JudgeController;
 import controller.ProblemController;
 import controller.UserController;
+import io.javalin.Javalin;
 import repository.ContestRepository;
 import repository.ProblemRepository;
 import repository.UserRepository;
@@ -13,18 +15,67 @@ import service.UserService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
-        run();
+        runApi();
     }
 
+
+    public static void runApi(){
+        UserRepository userRepository = new UserRepository();
+        UserService userService = new UserService(userRepository);
+        UserController userController = new UserController(userService);
+        UserApiController userApiController = new UserApiController(userService);
+
+        ProblemRepository problemRepository = new ProblemRepository();
+        ProblemService problemService = new ProblemService(problemRepository);
+        ProblemController problemController = new ProblemController(problemService);
+
+        ContestRepository contestRepository = new ContestRepository();
+        ContestService contestService = new ContestService(contestRepository, problemRepository);
+        ContestController contestController = new ContestController(contestService, problemService);
+
+        JudgeService judgeService = new JudgeService();
+        JudgeController judgeController = new JudgeController(judgeService);
+
+
+
+        Javalin app = Javalin.create(config -> {
+
+
+
+            config.routes.get("/", ctx -> ctx.result("Hello from Code Judge!"));
+            config.routes.get("/api/users", userApiController::getAll);
+           // config.routes.get("/api/users", userApiController::getUserByUsername);
+
+            config.routes.post("/api/users", userApiController::create);
+
+            config.routes.delete("/api/users", userApiController::delete);
+
+
+//            config.routes.get("/problems", ctx -> {
+//                ctx.result("Problem 1 problem 2");
+//            });
+//            config.routes.get("/api/user", ctx -> {
+//                User user = new User(1, "Alice Smith", "alice@example.com");
+//                ctx.json(user); // Automatically converts to JSON
+//            });
+//            config.routes.post("/api/problem", ctx -> {
+//                Map<String, String> body = ctx.bodyAsClass(Map.class);
+//                String name = body.get("username");
+//                User user = new User(1, name, "alice@example.com");
+//
+//                ctx.status(200).json(user);
+//            });
+
+
+
+        }).start(7070);
+    }
 
     public static void run() {
         UserRepository userRepository = new UserRepository();

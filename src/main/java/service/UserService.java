@@ -14,9 +14,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(String username, String email)  {
+    public User registerUser(String username, String email)  {
         User user = new User(username, email);
         userRepository.save(user);
+        return user;
     }
 
     public User getUserById(UUID id) {

@@ -5,4 +5,11 @@
   "sourceCode" : "import java.util.Scanner;\n\npublic class TestJudge {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int number1 = sc.nextInt();\n        int number2 = sc.nextInt();\n\n\n        System.out.println(number1 + number2);\n    }\n}\n",
   "status" : "PENDING",
   "submittedTime" : "2026-09-09T21:05:30.820208"
+}, {
+  "id" : "5ba621b6-cacb-45ae-b96d-a114277c049e",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f605",
+  "problemId" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+  "sourceCode" : "public class Testing {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n}}\n",
+  "status" : "PENDING",
+  "submittedTime" : "2026-09-16T18:35:56.250942"
 } ]
