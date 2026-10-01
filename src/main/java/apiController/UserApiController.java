@@ -14,11 +14,11 @@ public class UserApiController {
         this.userService = userService;
     }
 
+    // TODO: Learn about DTOs (Data Transfer Objects)
     public void getAll(Context ctx) {
-        System.out.println("Ramura cu get all");
-
+        // TODO: use pathParam for /username and /id
         String username = ctx.queryParam("username");
-        String idParam = ctx.queryParam("id"); // Returnează null dacă parametrul nu este în ruta curentă
+        String idParam = ctx.queryParam("id");
 
         if (username != null && !username.trim().isEmpty()) {
             ctx.json(userService.getUserByUsername(username));
@@ -35,8 +35,7 @@ public class UserApiController {
         }
     }
 
-
-
+    // TODO: Learn about DTOs
     public void create(Context ctx) {
         User payload = ctx.bodyAsClass(User.class);
         User created = userService.registerUser(payload.getUsername(), payload.getEmail());

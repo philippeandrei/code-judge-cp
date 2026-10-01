@@ -9,9 +9,11 @@ import java.util.UUID;
 
 public class JudgeController {
     public JudgeService judgeService;
+
     public JudgeController(JudgeService judgeService){
         this.judgeService = judgeService;
     }
+
     public void handleTestJudge(String path){
         if(path == null || path.trim().isEmpty()){
             System.out.println("[Syntax error] ");
@@ -24,9 +26,8 @@ public class JudgeController {
             System.out.println("[Exception]" + e.getMessage());
         }
     }
+
     public void handleSubmit(UUID userId, UUID problemId, String pathToFile) throws IOException, InterruptedException {
         judgeService.submitProblem(userId, problemId, pathToFile);
     }
-
-
 }

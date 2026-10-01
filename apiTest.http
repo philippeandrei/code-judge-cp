@@ -10,6 +10,9 @@ GET localhost:7070/api/users
 
 ###
 GET localhost:7070/api/users?username=philippe
+#GET localhost:7070/api/users/<name>
+#GET localhost:7070/api/users/<id>
+
 
 ###
 GET localhost:7070/api/users?id=e480d131-e835-4e7a-b71f-d5e139c9f605

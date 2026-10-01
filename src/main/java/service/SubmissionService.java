@@ -15,7 +15,6 @@ public class SubmissionService {
         this.submissionRepository = submissionRepository;
     }
 
-    //    public Submission(UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime){
     public Submission createSubmission(UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime) {
         Submission submission = new Submission(userId, problemId, sourceCode, submittedTime);
         submissionRepository.save(submission);
