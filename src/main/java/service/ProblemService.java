@@ -1,11 +1,13 @@
 package service;
 
 import exception.ProblemNotFoundException;
+import model.Category;
 import model.Problem;
 import model.TestCase;
 import repository.ProblemRepository;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public class ProblemService {
@@ -21,6 +23,15 @@ public class ProblemService {
         problemRepository.save(problem);
         return problem;
     }
+    public Problem createProblem(String title, String statement, long
+            timeLimitMs, long memoryLimitKb, List<TestCase> testCases, List<Category>
+                                         categories) {
+        Problem problem = new Problem(title, statement, timeLimitMs,
+                memoryLimitKb, testCases, categories);
+        problemRepository.save(problem);
+        return problem;
+    }
+
 
     public Problem getProblemById(UUID id)  {
         return problemRepository.findById(id).orElseThrow(() -> new ProblemNotFoundException("Can not find any problem with the id: " + id));

@@ -1,1 +1,30 @@
-[ ]
+[ {
+  "id" : "4761041c-7e56-4b12-8e68-f5ce1476a135",
+  "name" : "Grand Prix 2026",
+  "startTime" : "2026-11-01T14:00:00",
+  "endTime" : "2026-11-01T17:00:00",
+  "problems" : [ {
+    "id" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+    "title" : "My first problem",
+    "statement" : "blabv al",
+    "timeLimitMs" : 2500,
+    "memoryLimitKb" : 2500,
+    "testCases" : [ ],
+    "categories" : [ ]
+  }, {
+    "id" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+    "title" : "Sum of Two Numbers",
+    "statement" : "Given two integers, print their sum.",
+    "timeLimitMs" : 1000,
+    "memoryLimitKb" : 256000,
+    "testCases" : [ {
+      "input" : "2 3",
+      "expectedOutput" : "5"
+    } ],
+    "categories" : [ {
+      "id" : null,
+      "name" : "Math",
+      "difficulty" : "EASY"
+    } ]
+  } ]
+} ]

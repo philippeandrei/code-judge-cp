@@ -1,5 +1,8 @@
 package apiController;
 
+import dto.CreateUserRequest;
+import dto.UserResponseDto;
+import exception.UserNotFoundException;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import model.User;
@@ -15,36 +18,52 @@ public class UserApiController {
     }
 
     // TODO: Learn about DTOs (Data Transfer Objects)
-    public void getAll(Context ctx) {
-        // TODO: use pathParam for /username and /id
-        String username = ctx.queryParam("username");
-        String idParam = ctx.queryParam("id");
 
-        if (username != null && !username.trim().isEmpty()) {
-            ctx.json(userService.getUserByUsername(username));
-        } else if (idParam != null && !idParam.trim().isEmpty()) {
+    public void getAll(Context ctx){
+        String username = ctx.queryParam("username");
+        if(username != null){
             try {
-                System.out.println("Ramura cu id");
-                UUID id = UUID.fromString(idParam);
-                ctx.json(userService.getUserById(id));
-            } catch (IllegalArgumentException e) {
-                ctx.status(400).result("Format UUID invalid.");
+                User user = userService.getUserByUsername(username);
+                ctx.json(user);
+
+            } catch (Exception e) {
+                ctx.status(HttpStatus.NOT_FOUND).json("The user can not be found");
             }
-        } else {
+
+        }
+        else {
             ctx.json(userService.getAllUsers());
         }
     }
 
+
+    public void getUserId(Context ctx){
+        UUID id = UUID.fromString(ctx.pathParam("id"));
+        try {
+            UserResponseDto response = new UserResponseDto(userService.getUserById(id));
+            ctx.json(response);
+        } catch (Exception e){
+            ctx.status(HttpStatus.NOT_FOUND).json("Can not find user with id");
+        }
+
+    }
+
     // TODO: Learn about DTOs
     public void create(Context ctx) {
-        User payload = ctx.bodyAsClass(User.class);
+        CreateUserRequest payload = ctx.bodyAsClass(CreateUserRequest.class);
+
         User created = userService.registerUser(payload.getUsername(), payload.getEmail());
         ctx.status(HttpStatus.CREATED).json(created);
     }
 
     public void delete(Context ctx) {
-        UUID id = UUID.fromString(ctx.queryParam("id"));
-        userService.deleteUserById(id);
-        ctx.status(HttpStatus.NO_CONTENT);
+        String payload = ctx.pathParamAsClass("id", String.class).get();
+        UUID id = UUID.fromString(payload);
+        try {
+            userService.deleteUserById(id);
+            ctx.status(HttpStatus.NO_CONTENT);
+        } catch (UserNotFoundException e) {
+            ctx.status(HttpStatus.NOT_FOUND).json("User with id not found");
+        }
     }
 }

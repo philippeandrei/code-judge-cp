@@ -9,6 +9,7 @@ import repository.ContestRepository;
 import repository.ProblemRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ContestService {
@@ -25,6 +26,13 @@ public class ContestService {
         Contest contest = new Contest(name, startTime, endTime);
         contestRepository.save(contest);
     }
+    public Contest createContest(String name, LocalDateTime startTime, LocalDateTime endTime, ArrayList<Problem> problems)  {
+        if(startTime.isBefore(LocalDateTime.now()) || endTime.isBefore(startTime) || endTime.isEqual(startTime))
+            throw new ValidationException("Date Time is not valid") ;
+        Contest contest = new Contest(name, startTime, endTime, problems);
+        contestRepository.save(contest);
+        return contest;
+    }
     public Contest getContestById(UUID id)  {
         return contestRepository.findById(id).orElseThrow(() -> new ContestNotFoundException("Can not find contest with id: " + id));
     }
@@ -37,12 +45,13 @@ public class ContestService {
             throw new ContestNotFoundException("Can not found contest with id: " + id);
     }
 
-    public void addProblemToContest(UUID problemId, UUID contestID) {
+    public Contest addProblemToContest(UUID problemId, UUID contestID) {
         Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("Can not find problem: " + problemId));
 
         Contest contest = contestRepository.findById(contestID).orElseThrow(() -> new ContestNotFoundException("can not find contest: " + contestID));
 
         contest.addProblem(problem);
         contestRepository.save(contest);
+        return contest;
     }
 }

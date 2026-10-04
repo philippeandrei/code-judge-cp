@@ -1,17 +1,18 @@
 [ {
-  "id" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
-  "title" : "My first problem",
-  "statement" : "blabv al",
-  "timeLimitMs" : 2500,
-  "memoryLimitKb" : 2500,
+  "id" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "title" : "Sum of Two Numbers",
+  "statement" : "Given two integers, print their sum.",
+  "timeLimitMs" : 1000,
+  "memoryLimitKb" : 256000,
   "testCases" : [ {
-    "input" : "10 20",
-    "expectedOutput" : "30"
-  }, {
-    "input" : "20 20",
-    "expectedOutput" : "50"
+    "input" : "2 3",
+    "expectedOutput" : "5"
   } ],
-  "categories" : [ ]
+  "categories" : [ {
+    "id" : null,
+    "name" : "Math",
+    "difficulty" : "EASY"
+  } ]
 }, {
   "id" : "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
   "title" : "My problem2",

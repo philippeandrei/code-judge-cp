@@ -10,12 +10,17 @@ GET localhost:7070/api/users
 
 ###
 GET localhost:7070/api/users?username=philippe
-#GET localhost:7070/api/users/<name>
+###
+GET localhost:7070/api/users?username=andrei
+
+
 #GET localhost:7070/api/users/<id>
 
 
+
+
 ###
-GET localhost:7070/api/users?id=e480d131-e835-4e7a-b71f-d5e139c9f605
+GET localhost:7070/api/users/e480d131-e835-4e7a-b71f-d5e139c9f634
 
 ###
 POST http://localhost:7070/api/users
@@ -27,4 +32,92 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:7070/api/users?id=e480d131-e835-4e7a-b71f-d5e139c9f605
+DELETE http://localhost:7070/api/users/e480d131-e835-4e7a-b71f-d5e139c9f605
+
+
+###
+  ### Create Problem
+POST http://localhost:7070/api/problems
+Content-Type: application/json
+
+    {
+      "title": "Sum of Two Numbers",
+      "statement": "Given two integers, print their sum.",
+      "timeLimitMs": 1000,
+      "memoryLimitKb": 256000,
+      "testCases": [
+        {
+          "input": "2 3",
+          "expectedOutput": "5"
+        }
+      ],
+      "categories": [
+        {
+          "name": "Math",
+          "difficulty": "EASY"
+        }
+      ]
+    }
+
+
+###
+GET localhost:7070/api/problems/a579107a-b0e6-47e2-922a-c860793b8a1a
+
+
+###
+DELETE localhost:7070/api/problems/a579107a-b0e6-47e2-922a-c860793b8a1a
+
+###
+POST http://localhost:7070/api/contests
+Content-Type: application/json
+
+{
+  "name": "Weekly Contest 1",
+  "startTime": "2026-10-10T10:00:00",
+  "endTime": "2026-10-10T12:00:00",
+  "problems": []
+}
+
+### Create Contest (with an existing problem)
+POST http://localhost:7070/api/contests
+Content-Type: application/json
+
+{
+  "name": "Grand Prix 2027",
+  "startTime": "2026-11-01T14:00:00",
+  "endTime": "2026-11-01T11:00:00",
+  "problems": [
+    {
+      "id": "a579107a-b0e6-47e2-922a-c860793b8a1a",
+      "title": "My first problem",
+      "statement": "blabv al",
+      "timeLimitMs": 2500,
+      "memoryLimitKb": 2500,
+      "testCases": [],
+      "categories": []
+    }
+  ]
+}
+
+
+###
+GET localhost:7070/api/contests/4761041c-7e56-4b12-8e68-f5ce1476a135
+
+###
+GET localhost:7070/api/contests/4761041c-7e56-4b12-8e68-f5ce1476a135/add/8d9b9c83-9e89-4449-995e-6981674838a8
+
+### Submit Code (Single-line Escaped JSON)
+POST http://localhost:7070/api/submit
+Content-Type: application/json
+
+{
+  "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}"
+}
+
+###
+GET localhost:7070/api/submissions/b7289fc6-36b2-41c6-8b53-4edeb820a361
+
+###
+GET localhost:7070/api/submissions?userId=e480d131-e835-4e7a-b71f-d5e139c9f634

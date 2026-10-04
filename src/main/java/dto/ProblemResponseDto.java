@@ -1,11 +1,13 @@
-package model;
+package dto;
 
-import java.util.ArrayList;
+import model.Category;
+import model.Problem;
+import model.TestCase;
+
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-public class Problem {
+public class ProblemResponseDto {
     private UUID id;
     private String title;
     private String statement;
@@ -14,37 +16,27 @@ public class Problem {
     private List<TestCase> testCases;
     private List<Category> categories;
 
-    public Problem() {
-        this.testCases = new ArrayList<>();
-        this.categories = new ArrayList<>();
-    }
-    public Problem(String title, String statement, long timeLimitMs, long
-            memoryLimitKb, List<TestCase> testCases, List<Category> categories) {
-        this.id = UUID.randomUUID();
+    public ProblemResponseDto() {}
+    public ProblemResponseDto(UUID id, String title, String statement,
+                              long timeLimitMs, long memoryLimitKb, List<TestCase> testCases,
+                              List<Category> categories) {
+        this.id = id;
         this.title = title;
         this.statement = statement;
         this.timeLimitMs = timeLimitMs;
         this.memoryLimitKb = memoryLimitKb;
-        this.testCases = (testCases != null) ? testCases : new ArrayList<>();
-        this.categories = (categories != null) ? categories : new
-                ArrayList<>();
-    }
-    public Problem(String title, String statement, long timeLimitMs, long memoryLimitKb) {
-        this.id = UUID.randomUUID();
-        this.title = title;
-        this.statement = statement;
-        this.timeLimitMs = timeLimitMs;
-        this.memoryLimitKb = memoryLimitKb;
-        this.testCases = new ArrayList<>();
-        this.categories = new ArrayList<>();
+        this.testCases = testCases;
+        this.categories = categories;
     }
 
-    public void addTestCase(TestCase testCase) {
-        this.testCases.add(testCase);
-    }
-
-    public void addCategory(Category category) {
-        this.categories.add(category);
+    public ProblemResponseDto(Problem problem) {
+        this.id = problem.getId();
+        this.title = problem.getTitle();
+        this.statement = problem.getStatement();
+        this.timeLimitMs = problem.getTimeLimitMs();
+        this.memoryLimitKb = problem.getMemoryLimitKb();
+        this.testCases = problem.getTestCases();
+        this.categories = problem.getCategories();
     }
 
 
@@ -102,17 +94,5 @@ public class Problem {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Problem problem = (Problem) o;
-        return Objects.equals(id, problem.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

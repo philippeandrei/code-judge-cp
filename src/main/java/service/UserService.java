@@ -28,7 +28,7 @@ public class UserService {
         return userRepository.getUserByUsername(username).orElseThrow(() -> new UserNotFoundException("The user can not be found."));
     }
 
-    public void deleteUserById(UUID id)  {
+    public void deleteUserById(UUID id) throws UserNotFoundException {
         if(!userRepository.deleteById(id))
             throw new UserNotFoundException("The user can not be found");
     }

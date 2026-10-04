@@ -22,6 +22,13 @@ public class Contest {
         this.endTime = endTime;
         this.problems = new ArrayList<>();
     }
+    public Contest(String name, LocalDateTime startTime, LocalDateTime endTime, List<Problem> problems) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.problems = problems;
+    }
 
     public void addProblem(Problem problem){
         if(!this.problems.contains(problem))
