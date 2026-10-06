@@ -6,113 +6,118 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Problem {
-    private UUID id;
-    private String title;
-    private String statement;
-    private long timeLimitMs;
-    private long memoryLimitKb;
-    private List<TestCase> testCases;
-    private List<Category> categories;
+  private UUID id;
+  private String title;
+  private String statement;
+  private long timeLimitMs;
+  private long memoryLimitKb;
+  private List<TestCase> testCases;
+  private List<Category> categories;
 
-    public Problem() {
-        this.testCases = new ArrayList<>();
-        this.categories = new ArrayList<>();
-    }
-    public Problem(String title, String statement, long timeLimitMs, long
-            memoryLimitKb, List<TestCase> testCases, List<Category> categories) {
-        this.id = UUID.randomUUID();
-        this.title = title;
-        this.statement = statement;
-        this.timeLimitMs = timeLimitMs;
-        this.memoryLimitKb = memoryLimitKb;
-        this.testCases = (testCases != null) ? testCases : new ArrayList<>();
-        this.categories = (categories != null) ? categories : new
-                ArrayList<>();
-    }
-    public Problem(String title, String statement, long timeLimitMs, long memoryLimitKb) {
-        this.id = UUID.randomUUID();
-        this.title = title;
-        this.statement = statement;
-        this.timeLimitMs = timeLimitMs;
-        this.memoryLimitKb = memoryLimitKb;
-        this.testCases = new ArrayList<>();
-        this.categories = new ArrayList<>();
-    }
+  public Problem() {
+    this.testCases = new ArrayList<>();
+    this.categories = new ArrayList<>();
+  }
 
-    public void addTestCase(TestCase testCase) {
-        this.testCases.add(testCase);
-    }
+  public Problem(
+      String title,
+      String statement,
+      long timeLimitMs,
+      long memoryLimitKb,
+      List<TestCase> testCases,
+      List<Category> categories) {
+    this.id = UUID.randomUUID();
+    this.title = title;
+    this.statement = statement;
+    this.timeLimitMs = timeLimitMs;
+    this.memoryLimitKb = memoryLimitKb;
+    this.testCases = (testCases != null) ? testCases : new ArrayList<>();
+    this.categories = (categories != null) ? categories : new ArrayList<>();
+  }
 
-    public void addCategory(Category category) {
-        this.categories.add(category);
-    }
+  public Problem(String title, String statement, long timeLimitMs, long memoryLimitKb) {
+    this.id = UUID.randomUUID();
+    this.title = title;
+    this.statement = statement;
+    this.timeLimitMs = timeLimitMs;
+    this.memoryLimitKb = memoryLimitKb;
+    this.testCases = new ArrayList<>();
+    this.categories = new ArrayList<>();
+  }
 
+  public void addTestCase(TestCase testCase) {
+    this.testCases.add(testCase);
+  }
 
-    public UUID getId() {
-        return id;
-    }
+  public void addCategory(Category category) {
+    this.categories.add(category);
+  }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public void setId(UUID id) {
+    this.id = id;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getStatement() {
-        return statement;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setStatement(String statement) {
-        this.statement = statement;
-    }
+  public String getStatement() {
+    return statement;
+  }
 
-    public long getTimeLimitMs() {
-        return timeLimitMs;
-    }
+  public void setStatement(String statement) {
+    this.statement = statement;
+  }
 
-    public void setTimeLimitMs(long timeLimitMs) {
-        this.timeLimitMs = timeLimitMs;
-    }
+  public long getTimeLimitMs() {
+    return timeLimitMs;
+  }
 
-    public long getMemoryLimitKb() {
-        return memoryLimitKb;
-    }
+  public void setTimeLimitMs(long timeLimitMs) {
+    this.timeLimitMs = timeLimitMs;
+  }
 
-    public void setMemoryLimitKb(long memoryLimitKb) {
-        this.memoryLimitKb = memoryLimitKb;
-    }
+  public long getMemoryLimitKb() {
+    return memoryLimitKb;
+  }
 
-    public List<TestCase> getTestCases() {
-        return testCases;
-    }
+  public void setMemoryLimitKb(long memoryLimitKb) {
+    this.memoryLimitKb = memoryLimitKb;
+  }
 
-    public void setTestCases(List<TestCase> testCases) {
-        this.testCases = testCases;
-    }
+  public List<TestCase> getTestCases() {
+    return testCases;
+  }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
+  public void setTestCases(List<TestCase> testCases) {
+    this.testCases = testCases;
+  }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+  public List<Category> getCategories() {
+    return categories;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Problem problem = (Problem) o;
-        return Objects.equals(id, problem.id);
-    }
+  public void setCategories(List<Category> categories) {
+    this.categories = categories;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) return false;
+    Problem problem = (Problem) o;
+    return Objects.equals(id, problem.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
+  }
 }

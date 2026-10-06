@@ -1,58 +1,67 @@
 package service;
 
 import exception.ProblemNotFoundException;
+import java.util.List;
+import java.util.UUID;
 import model.Category;
 import model.Problem;
 import model.TestCase;
 import repository.ProblemRepository;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-
 public class ProblemService {
-    public ProblemRepository problemRepository;
+  public ProblemRepository problemRepository;
 
-    public ProblemService(ProblemRepository problemRepository) {
-        this.problemRepository = problemRepository;
-    }
+  public ProblemService(ProblemRepository problemRepository) {
+    this.problemRepository = problemRepository;
+  }
 
-    //String title, String statement, long timeLimitMs, long memoryLimitKb) {
-    public Problem createProblem(String title, String statement, long timeLimitMs, long memoryLimitKb)  {
-        Problem problem = new Problem(title, statement, timeLimitMs, memoryLimitKb);
-        problemRepository.save(problem);
-        return problem;
-    }
-    public Problem createProblem(String title, String statement, long
-            timeLimitMs, long memoryLimitKb, List<TestCase> testCases, List<Category>
-                                         categories) {
-        Problem problem = new Problem(title, statement, timeLimitMs,
-                memoryLimitKb, testCases, categories);
-        problemRepository.save(problem);
-        return problem;
-    }
+  // String title, String statement, long timeLimitMs, long memoryLimitKb) {
+  public Problem createProblem(
+      String title, String statement, long timeLimitMs, long memoryLimitKb) {
+    Problem problem = new Problem(title, statement, timeLimitMs, memoryLimitKb);
+    problemRepository.save(problem);
+    return problem;
+  }
 
+  public Problem createProblem(
+      String title,
+      String statement,
+      long timeLimitMs,
+      long memoryLimitKb,
+      List<TestCase> testCases,
+      List<Category> categories) {
+    Problem problem =
+        new Problem(title, statement, timeLimitMs, memoryLimitKb, testCases, categories);
+    problemRepository.save(problem);
+    return problem;
+  }
 
-    public Problem getProblemById(UUID id)  {
-        return problemRepository.findById(id).orElseThrow(() -> new ProblemNotFoundException("Can not find any problem with the id: " + id));
-    }
+  public Problem getProblemById(UUID id) {
+    return problemRepository
+        .findById(id)
+        .orElseThrow(
+            () -> new ProblemNotFoundException("Can not find any problem with the id: " + id));
+  }
 
-    public Problem getProblemByTitle(String title)  {
-        return problemRepository.getProblemByTitle(title).orElseThrow(()-> new ProblemNotFoundException("Can not find any problem with the title: " + title));
-    }
+  public Problem getProblemByTitle(String title) {
+    return problemRepository
+        .getProblemByTitle(title)
+        .orElseThrow(
+            () ->
+                new ProblemNotFoundException("Can not find any problem with the title: " + title));
+  }
 
-    public void deleteProblemById(UUID id)  {
-        if(!problemRepository.deleteById(id))
-           throw new ProblemNotFoundException("Can not find any problem with id: " + id);
-    }
+  public void deleteProblemById(UUID id) {
+    if (!problemRepository.deleteById(id))
+      throw new ProblemNotFoundException("Can not find any problem with id: " + id);
+  }
 
-    public void addTestCaseToProblem(UUID problemId, String input, String expectedOutput)  {
-        Problem problem = getProblemById(problemId);
-        TestCase testCase = new TestCase( input, expectedOutput);
+  public void addTestCaseToProblem(UUID problemId, String input, String expectedOutput) {
+    Problem problem = getProblemById(problemId);
+    TestCase testCase = new TestCase(input, expectedOutput);
 
-        problem.addTestCase(testCase);
+    problem.addTestCase(testCase);
 
-        problemRepository.save(problem);
-    }
-
+    problemRepository.save(problem);
+  }
 }

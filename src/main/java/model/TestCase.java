@@ -4,43 +4,43 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class TestCase {
-    private UUID id;
-    private UUID problemId;
-    private String input;
-    private String expectedOutput;
-    public TestCase(){
+  private UUID id;
+  private UUID problemId;
+  private String input;
+  private String expectedOutput;
 
-    }
-    public TestCase( String input, String expectedOutput){
-        this.input = input;
-        this.expectedOutput = expectedOutput;
-    }
+  public TestCase() {}
 
-    public String getInput() {
-        return input;
-    }
+  public TestCase(String input, String expectedOutput) {
+    this.input = input;
+    this.expectedOutput = expectedOutput;
+  }
 
-    public void setInput(String input) {
-        this.input = input;
-    }
+  public String getInput() {
+    return input;
+  }
 
-    public String getExpectedOutput() {
-        return expectedOutput;
-    }
+  public void setInput(String input) {
+    this.input = input;
+  }
 
-    public void setExpectedOutput(String expectedOutput) {
-        this.expectedOutput = expectedOutput;
-    }
+  public String getExpectedOutput() {
+    return expectedOutput;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        TestCase testCase = (TestCase) o;
-        return Objects.equals(id, testCase.id);
-    }
+  public void setExpectedOutput(String expectedOutput) {
+    this.expectedOutput = expectedOutput;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) return false;
+    TestCase testCase = (TestCase) o;
+    return Objects.equals(id, testCase.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
+  }
 }

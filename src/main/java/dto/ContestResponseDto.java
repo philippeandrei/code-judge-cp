@@ -1,53 +1,54 @@
 package dto;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import model.Contest;
 import model.Problem;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 public class ContestResponseDto {
-    private String name;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private List<Problem> problems;
-    public ContestResponseDto() {}
-    public ContestResponseDto(Contest contest) {
-        this.name = contest.getName();
-        this.startTime = contest.getStartTime();
-        this.endTime = contest.getEndTime();
-        this.problems = contest.getProblems();
-    }
+  private String name;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
+  private List<Problem> problems;
 
-    public String getName() {
-        return name;
-    }
+  public ContestResponseDto() {}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public ContestResponseDto(Contest contest) {
+    this.name = contest.getName();
+    this.startTime = contest.getStartTime();
+    this.endTime = contest.getEndTime();
+    this.problems = contest.getProblems();
+  }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
+  public LocalDateTime getStartTime() {
+    return startTime;
+  }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
+  public void setStartTime(LocalDateTime startTime) {
+    this.startTime = startTime;
+  }
 
-    public List<Problem> getProblems() {
-        return problems;
-    }
+  public LocalDateTime getEndTime() {
+    return endTime;
+  }
 
-    public void setProblems(List<Problem> problems) {
-        this.problems = problems;
-    }
+  public void setEndTime(LocalDateTime endTime) {
+    this.endTime = endTime;
+  }
+
+  public List<Problem> getProblems() {
+    return problems;
+  }
+
+  public void setProblems(List<Problem> problems) {
+    this.problems = problems;
+  }
 }

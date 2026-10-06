@@ -1,24 +1,31 @@
-[ {
-  "id" : "8d9b9c83-9e89-4449-995e-6981674838a8",
-  "title" : "Sum of Two Numbers",
-  "statement" : "Given two integers, print their sum.",
-  "timeLimitMs" : 1000,
-  "memoryLimitKb" : 256000,
-  "testCases" : [ {
-    "input" : "2 3",
-    "expectedOutput" : "5"
-  } ],
-  "categories" : [ {
-    "id" : null,
-    "name" : "Math",
-    "difficulty" : "EASY"
-  } ]
-}, {
-  "id" : "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
-  "title" : "My problem2",
-  "statement" : "Write a c++ program that...",
-  "timeLimitMs" : 2000,
-  "memoryLimitKb" : 100,
-  "testCases" : [ ],
-  "categories" : [ ]
-} ]
+[
+  {
+    "id": "8d9b9c83-9e89-4449-995e-6981674838a8",
+    "title": "Sum of Two Numbers",
+    "statement": "Given two integers, print their sum.",
+    "timeLimitMs": 1000,
+    "memoryLimitKb": 256000,
+    "testCases": [
+      {
+        "input": "2 3",
+        "expectedOutput": "5"
+      }
+    ],
+    "categories": [
+      {
+        "id": null,
+        "name": "Math",
+        "difficulty": "EASY"
+      }
+    ]
+  },
+  {
+    "id": "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
+    "title": "My problem2",
+    "statement": "Write a c++ program that...",
+    "timeLimitMs": 2000,
+    "memoryLimitKb": 100,
+    "testCases": [],
+    "categories": []
+  }
+]

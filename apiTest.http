@@ -10,6 +10,7 @@ GET localhost:7070/api/users
 
 ###
 GET localhost:7070/api/users?username=philippe
+
 ###
 GET localhost:7070/api/users?username=andrei
 
@@ -40,24 +41,24 @@ DELETE http://localhost:7070/api/users/e480d131-e835-4e7a-b71f-d5e139c9f605
 POST http://localhost:7070/api/problems
 Content-Type: application/json
 
+{
+  "title": "Sum of Two Numbers",
+  "statement": "Given two integers, print their sum.",
+  "timeLimitMs": 1000,
+  "memoryLimitKb": 256000,
+  "testCases": [
     {
-      "title": "Sum of Two Numbers",
-      "statement": "Given two integers, print their sum.",
-      "timeLimitMs": 1000,
-      "memoryLimitKb": 256000,
-      "testCases": [
-        {
-          "input": "2 3",
-          "expectedOutput": "5"
-        }
-      ],
-      "categories": [
-        {
-          "name": "Math",
-          "difficulty": "EASY"
-        }
-      ]
+      "input": "2 3",
+      "expectedOutput": "5"
     }
+  ],
+  "categories": [
+    {
+      "name": "Math",
+      "difficulty": "EASY"
+    }
+  ]
+}
 
 
 ###
