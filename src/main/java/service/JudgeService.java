@@ -3,6 +3,7 @@ package service;
 import static model.SubmissionStatusEnum.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,12 +30,16 @@ public class JudgeService {
 
       System.out.println("Compiling...");
       ProcessBuilder compiler = new ProcessBuilder("javac", fileName);
-      compiler.inheritIO();
       compiler.directory(workingDirectory);
       Process compileProcess = compiler.start();
+      String compilationErrors =
+          new String(compileProcess.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
+
       int exitCode = compileProcess.waitFor();
       if (exitCode != 0) {
-        System.out.println("Compilation error");
+
+        System.out.println("Compilation error:\n" + compilationErrors);
+
         return;
       }
 
@@ -108,13 +113,18 @@ public class JudgeService {
       System.out.println("Compiling...");
       submission.setStatus(COMPILING);
       ProcessBuilder compiler = new ProcessBuilder("javac", fileName);
-      compiler.inheritIO();
+
       compiler.directory(workingDirectory);
       Process compileProcess = compiler.start();
+      String compilationErrors =
+          new String(compileProcess.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
+
       int exitCode = compileProcess.waitFor();
       if (exitCode != 0) {
         submission.setStatus(COMPILATION_ERROR);
-        System.out.println("Compilation error");
+        submission.setErrorMessage(compilationErrors);
+        submissionRepository.saveToFile();
+        System.out.println("Compilation error: " + compilationErrors);
         return submission;
       }
 

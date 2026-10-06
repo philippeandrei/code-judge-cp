@@ -11,16 +11,31 @@ public class Submission {
   private String sourceCode;
   private SubmissionStatusEnum status;
   private LocalDateTime submittedTime;
+  private String errorMessage;
 
   public Submission() {}
 
-  public Submission(UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime) {
+  public Submission(
+      UUID userId,
+      UUID problemId,
+      String sourceCode,
+      LocalDateTime submittedTime,
+      String errorMessage) {
     this.id = UUID.randomUUID();
     this.userId = userId;
     this.problemId = problemId;
     this.sourceCode = sourceCode;
     this.status = SubmissionStatusEnum.PENDING;
     this.submittedTime = submittedTime;
+    this.errorMessage = errorMessage;
+  }
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
+
+  public void setErrorMessage(String errorMessage) {
+    this.errorMessage = errorMessage;
   }
 
   @Override

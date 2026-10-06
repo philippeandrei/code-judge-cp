@@ -35,7 +35,7 @@ public class SubmissionRepositoryTest {
     LocalDateTime submittedTime = LocalDateTime.parse("2026-10-10 10:10", formatter);
 
     Submission submission =
-        new Submission(UUID.randomUUID(), UUID.randomUUID(), "c++", submittedTime);
+        new Submission(UUID.randomUUID(), UUID.randomUUID(), "c++", submittedTime, "");
     submissionRepository.save(submission);
 
     UUID id = submission.getId();

@@ -41,10 +41,7 @@ public class SubmissionsApiController {
         return;
       }
       ctx.status(HttpStatus.CREATED)
-          .json(
-              Map.of(
-                  "id", submission.getId(),
-                  "status", submission.getStatus()));
+          .json(submission);
 
     } catch (Exception e) {
       ctx.status(HttpStatus.BAD_REQUEST).json("Exception returned: " + e);

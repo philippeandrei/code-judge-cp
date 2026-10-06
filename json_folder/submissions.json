@@ -1,98 +1,113 @@
-[
-  {
-    "id": "d785cf4c-5e43-4b2f-a933-b02232decc8a",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
-    "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
-    "status": "PLAGIARISM_FLAGGED",
-    "submittedTime": "2026-10-04T18:29:42.320885"
-  },
-  {
-    "id": "c9b078d2-f720-4d81-99cf-b7f9972994ff",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
-    "sourceCode": "public class TestPlagiarism2 {\n\n\n\n\n    public static void main(String[] args) {\n\n\n\n                         System.out.println(\"20\");\n    }}\n",
-    "status": "PLAGIARISM_FLAGGED",
-    "submittedTime": "2026-10-01T20:38:40.79307"
-  },
-  {
-    "id": "b7289fc6-36b2-41c6-8b53-4edeb820a361",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
-    "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = newScanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
-    "status": "COMPILATION_ERROR",
-    "submittedTime": "2026-10-04T14:36:58.548892"
-  },
-  {
-    "id": "de24acbe-5309-411f-982f-c4cec8f4d92e",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
-    "sourceCode": "public class TestPlagiarism1 {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n    }}\n",
-    "status": "ACCEPTED",
-    "submittedTime": "2026-10-01T20:37:29.631421"
-  },
-  {
-    "id": "8359d2b5-0122-4b02-92bc-7686277dcf53",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
-    "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
-    "status": "ACCEPTED",
-    "submittedTime": "2026-10-04T14:47:06.996626"
-  },
-  {
-    "id": "40f24fb7-e1fe-44f3-aab3-5165fbc2da24",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
-    "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
-    "status": "PLAGIARISM_FLAGGED",
-    "submittedTime": "2026-10-04T18:26:22.150632"
-  },
-  {
-    "id": "461ad350-d902-496f-adb8-7b3b6f573599",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
-    "sourceCode": "public class TestPlagiarism1 {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n    }}\n",
-    "status": "PENDING",
-    "submittedTime": "2026-10-01T20:33:42.61042"
-  },
-  {
-    "id": "9d16c141-8914-49d2-a4ac-2771cb504931",
-    "userId": "a579107a-b0e6-47e2-922a-c860793b8a1a",
-    "problemId": "a579107a-b0e6-47e2-922a-c860793b8a1a",
-    "sourceCode": "import java.util.Scanner;\n\npublic class TestJudge {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int number1 = sc.nextInt();\n        int number2 = sc.nextInt();\n\n\n        System.out.println(number1 + number2);\n    }\n}\n",
-    "status": "PENDING",
-    "submittedTime": "2026-09-09T21:05:30.820208"
-  },
-  {
-    "id": "8ad939aa-8cd0-4740-b44c-28e5cceead79",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "a579107a-b0e6-47e2-922a-c860793b8a1a",
-    "sourceCode": "public class Testing {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n    }}\n",
-    "status": "COMPILATION_ERROR",
-    "submittedTime": "2026-10-01T20:32:31.27903"
-  },
-  {
-    "id": "7ed2842c-dcf4-49a0-8dde-5c434e51da4b",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
-    "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
-    "status": "PLAGIARISM_FLAGGED",
-    "submittedTime": "2026-10-04T18:26:29.897286"
-  },
-  {
-    "id": "5ba621b6-cacb-45ae-b96d-a114277c049e",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f605",
-    "problemId": "a579107a-b0e6-47e2-922a-c860793b8a1a",
-    "sourceCode": "public class Testing {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n}}\n",
-    "status": "PENDING",
-    "submittedTime": "2026-09-16T18:35:56.250942"
-  },
-  {
-    "id": "8c58c67b-5b79-41ad-a314-434bfc352842",
-    "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-    "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
-    "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
-    "status": "PLAGIARISM_FLAGGED",
-    "submittedTime": "2026-10-04T18:31:37.291167"
-  }
-]
+[ {
+  "id" : "d785cf4c-5e43-4b2f-a933-b02232decc8a",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "PLAGIARISM_FLAGGED",
+  "submittedTime" : "2026-10-04T18:29:42.320885",
+  "errorMessage" : null
+}, {
+  "id" : "c9b078d2-f720-4d81-99cf-b7f9972994ff",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
+  "sourceCode" : "public class TestPlagiarism2 {\n\n\n\n\n    public static void main(String[] args) {\n\n\n\n                         System.out.println(\"20\");\n    }}\n",
+  "status" : "PLAGIARISM_FLAGGED",
+  "submittedTime" : "2026-10-01T20:38:40.79307",
+  "errorMessage" : null
+}, {
+  "id" : "461ad350-d902-496f-adb8-7b3b6f573599",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
+  "sourceCode" : "public class TestPlagiarism1 {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n    }}\n",
+  "status" : "PENDING",
+  "submittedTime" : "2026-10-01T20:33:42.61042",
+  "errorMessage" : null
+}, {
+  "id" : "9d16c141-8914-49d2-a4ac-2771cb504931",
+  "userId" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+  "problemId" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class TestJudge {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int number1 = sc.nextInt();\n        int number2 = sc.nextInt();\n\n\n        System.out.println(number1 + number2);\n    }\n}\n",
+  "status" : "PENDING",
+  "submittedTime" : "2026-09-09T21:05:30.820208",
+  "errorMessage" : null
+}, {
+  "id" : "7ed2842c-dcf4-49a0-8dde-5c434e51da4b",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "PLAGIARISM_FLAGGED",
+  "submittedTime" : "2026-10-04T18:26:29.897286",
+  "errorMessage" : null
+}, {
+  "id" : "5ba621b6-cacb-45ae-b96d-a114277c049e",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f605",
+  "problemId" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+  "sourceCode" : "public class Testing {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n}}\n",
+  "status" : "PENDING",
+  "submittedTime" : "2026-09-16T18:35:56.250942",
+  "errorMessage" : null
+}, {
+  "id" : "02eb6658-26c1-485c-b0e6-0a776e2ef67f",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "PLAGIARISM_FLAGGED",
+  "submittedTime" : "2026-10-06T18:06:11.655678",
+  "errorMessage" : ""
+}, {
+  "id" : "b7289fc6-36b2-41c6-8b53-4edeb820a361",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = newScanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "COMPILATION_ERROR",
+  "submittedTime" : "2026-10-04T14:36:58.548892",
+  "errorMessage" : null
+}, {
+  "id" : "32ec3ae9-450d-414c-90c3-ddc5db25c691",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = newScanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "COMPILATION_ERROR",
+  "submittedTime" : "2026-10-06T18:06:33.812229",
+  "errorMessage" : "Solution.java:5: error: cannot find symbol\n        Scanner sc = newScanner(System.in);\n                     ^\n  symbol:   method newScanner(InputStream)\n  location: class Solution\n1 error\n"
+}, {
+  "id" : "de24acbe-5309-411f-982f-c4cec8f4d92e",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "a5e7a6f0-d337-4419-9721-3aa5f7ff6f9c",
+  "sourceCode" : "public class TestPlagiarism1 {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n    }}\n",
+  "status" : "ACCEPTED",
+  "submittedTime" : "2026-10-01T20:37:29.631421",
+  "errorMessage" : null
+}, {
+  "id" : "8359d2b5-0122-4b02-92bc-7686277dcf53",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "ACCEPTED",
+  "submittedTime" : "2026-10-04T14:47:06.996626",
+  "errorMessage" : null
+}, {
+  "id" : "40f24fb7-e1fe-44f3-aab3-5165fbc2da24",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "PLAGIARISM_FLAGGED",
+  "submittedTime" : "2026-10-04T18:26:22.150632",
+  "errorMessage" : null
+}, {
+  "id" : "8ad939aa-8cd0-4740-b44c-28e5cceead79",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "a579107a-b0e6-47e2-922a-c860793b8a1a",
+  "sourceCode" : "public class Testing {\n    public static void main(String[] args) {\n        System.out.println(\"30\");\n    }}\n",
+  "status" : "COMPILATION_ERROR",
+  "submittedTime" : "2026-10-01T20:32:31.27903",
+  "errorMessage" : null
+}, {
+  "id" : "8c58c67b-5b79-41ad-a314-434bfc352842",
+  "userId" : "e480d131-e835-4e7a-b71f-d5e139c9f634",
+  "problemId" : "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "sourceCode" : "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "status" : "PLAGIARISM_FLAGGED",
+  "submittedTime" : "2026-10-04T18:31:37.291167",
+  "errorMessage" : null
+} ]
