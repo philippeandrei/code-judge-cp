@@ -7,7 +7,6 @@ import io.javalin.http.HttpStatus;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import model.Submission;
 import service.JudgeService;
@@ -40,8 +39,7 @@ public class SubmissionsApiController {
         ctx.status(HttpStatus.INTERNAL_SERVER_ERROR).json("Failed to process submission");
         return;
       }
-      ctx.status(HttpStatus.CREATED)
-          .json(submission);
+      ctx.status(HttpStatus.CREATED).json(submission);
 
     } catch (Exception e) {
       ctx.status(HttpStatus.BAD_REQUEST).json("Exception returned: " + e);

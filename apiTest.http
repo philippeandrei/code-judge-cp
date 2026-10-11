@@ -28,8 +28,8 @@ POST http://localhost:7070/api/users
 Content-Type: application/json
 
 {
-  "username": "john_doe2",
-  "email": "john.doe2@example.com"
+  "username": "philippe",
+  "email": "philippe@gmail.com"
 }
 
 ###

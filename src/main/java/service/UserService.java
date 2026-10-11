@@ -4,39 +4,39 @@ import exception.UserNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import model.User;
-import repository.UserRepository;
+import repositoryDataBase.UserDataBaseRepository;
 
 public class UserService {
-  public UserRepository userRepository;
+  public UserDataBaseRepository userDataBaseRepository;
 
-  public UserService(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public UserService(UserDataBaseRepository userDataBaseRepository) {
+    this.userDataBaseRepository = userDataBaseRepository;
   }
 
   public User registerUser(String username, String email) {
     User user = new User(username, email);
-    userRepository.save(user);
+    userDataBaseRepository.save(user);
     return user;
   }
 
   public User getUserById(UUID id) {
-    return userRepository
+    return userDataBaseRepository
         .findById(id)
         .orElseThrow(() -> new UserNotFoundException("The user can not be found."));
   }
 
   public User getUserByUsername(String username) {
-    return userRepository
+    return userDataBaseRepository
         .getUserByUsername(username)
         .orElseThrow(() -> new UserNotFoundException("The user can not be found."));
   }
 
   public void deleteUserById(UUID id) throws UserNotFoundException {
-    if (!userRepository.deleteById(id))
+    if (!userDataBaseRepository.deleteById(id))
       throw new UserNotFoundException("The user can not be found");
   }
 
   public List<User> getAllUsers() {
-    return userRepository.findAll();
+    return userDataBaseRepository.findAll();
   }
 }
