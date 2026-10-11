@@ -5,6 +5,7 @@ import repository.ContestRepository;
 import repository.ProblemRepository;
 import repository.SubmissionRepository;
 import repository.UserRepository;
+import repositoryDataBase.ProblemDataBaseRepository;
 import repositoryDataBase.UserDataBaseRepository;
 import service.*;
 
@@ -19,8 +20,9 @@ public class Main {
     UserService userService = new UserService(userDataBaseRepository);
     UserApiController userApiController = new UserApiController(userService);
 
+    ProblemDataBaseRepository problemDataBaseRepository = new ProblemDataBaseRepository();
     ProblemRepository problemRepository = new ProblemRepository();
-    ProblemService problemService = new ProblemService(problemRepository);
+    ProblemService problemService = new ProblemService(problemDataBaseRepository);
     ProblemApiController problemApiController = new ProblemApiController(problemService);
 
     ContestRepository contestRepository = new ContestRepository();

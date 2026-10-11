@@ -13,6 +13,7 @@ import model.Submission;
 import model.TestCase;
 import repository.ProblemRepository;
 import repository.SubmissionRepository;
+import repositoryDataBase.ProblemDataBaseRepository;
 
 public class JudgeService {
   public SubmissionRepository submissionRepository = new SubmissionRepository();
@@ -87,7 +88,7 @@ public class JudgeService {
 
   public Submission submitProblem(UUID userId, UUID problemId, String pathToFolder)
       throws IOException, InterruptedException {
-    ProblemService problemService = new ProblemService(new ProblemRepository());
+    ProblemService problemService = new ProblemService(new ProblemDataBaseRepository());
 
     Problem problem = problemService.getProblemById(problemId);
     try {

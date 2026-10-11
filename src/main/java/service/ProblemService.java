@@ -6,20 +6,21 @@ import java.util.UUID;
 import model.Category;
 import model.Problem;
 import model.TestCase;
-import repository.ProblemRepository;
+
+import repositoryDataBase.ProblemDataBaseRepository;
 
 public class ProblemService {
-  public ProblemRepository problemRepository;
+  public ProblemDataBaseRepository problemDataBaseRepository;
 
-  public ProblemService(ProblemRepository problemRepository) {
-    this.problemRepository = problemRepository;
+  public ProblemService(ProblemDataBaseRepository problemDataBaseRepository) {
+    this.problemDataBaseRepository = problemDataBaseRepository;
   }
 
   // String title, String statement, long timeLimitMs, long memoryLimitKb) {
   public Problem createProblem(
       String title, String statement, long timeLimitMs, long memoryLimitKb) {
     Problem problem = new Problem(title, statement, timeLimitMs, memoryLimitKb);
-    problemRepository.save(problem);
+    problemDataBaseRepository.save(problem);
     return problem;
   }
 
@@ -32,19 +33,19 @@ public class ProblemService {
       List<Category> categories) {
     Problem problem =
         new Problem(title, statement, timeLimitMs, memoryLimitKb, testCases, categories);
-    problemRepository.save(problem);
+    problemDataBaseRepository.save(problem);
     return problem;
   }
 
   public Problem getProblemById(UUID id) {
-    return problemRepository
+    return problemDataBaseRepository
         .findById(id)
         .orElseThrow(
             () -> new ProblemNotFoundException("Can not find any problem with the id: " + id));
   }
 
   public Problem getProblemByTitle(String title) {
-    return problemRepository
+    return problemDataBaseRepository
         .getProblemByTitle(title)
         .orElseThrow(
             () ->
@@ -52,7 +53,7 @@ public class ProblemService {
   }
 
   public void deleteProblemById(UUID id) {
-    if (!problemRepository.deleteById(id))
+    if (!problemDataBaseRepository.deleteById(id))
       throw new ProblemNotFoundException("Can not find any problem with id: " + id);
   }
 
@@ -62,6 +63,6 @@ public class ProblemService {
 
     problem.addTestCase(testCase);
 
-    problemRepository.save(problem);
+    problemDataBaseRepository.save(problem);
   }
 }
