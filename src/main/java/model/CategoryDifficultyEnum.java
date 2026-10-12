@@ -3,5 +3,8 @@ package model;
 public enum CategoryDifficultyEnum {
   EASY,
   MEDIUM,
-  HARD
+  HARD,
+  easy,
+  medium,
+  hard
 }

@@ -5,6 +5,7 @@ import repository.ContestRepository;
 import repository.ProblemRepository;
 import repository.SubmissionRepository;
 import repository.UserRepository;
+import repositoryDataBase.ContestDataBaseRepository;
 import repositoryDataBase.ProblemDataBaseRepository;
 import repositoryDataBase.UserDataBaseRepository;
 import service.*;
@@ -26,7 +27,8 @@ public class Main {
     ProblemApiController problemApiController = new ProblemApiController(problemService);
 
     ContestRepository contestRepository = new ContestRepository();
-    ContestService contestService = new ContestService(contestRepository, problemRepository);
+    ContestDataBaseRepository contestDataBaseRepository = new ContestDataBaseRepository();
+    ContestService contestService = new ContestService(contestDataBaseRepository, problemDataBaseRepository);
     ContestApiController contestApiController = new ContestApiController(contestService);
 
     JudgeService judgeService = new JudgeService();

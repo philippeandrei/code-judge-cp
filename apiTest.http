@@ -74,8 +74,8 @@ Content-Type: application/json
 
 {
   "name": "Weekly Contest 1",
-  "startTime": "2026-10-10T10:00:00",
-  "endTime": "2026-10-10T12:00:00",
+  "startTime": "2026-11-11T10:00:00",
+  "endTime": "2026-11-11T12:00:00",
   "problems": []
 }
 
@@ -86,10 +86,10 @@ Content-Type: application/json
 {
   "name": "Grand Prix 2027",
   "startTime": "2026-11-01T14:00:00",
-  "endTime": "2026-11-01T11:00:00",
+  "endTime": "2026-11-01T19:00:00",
   "problems": [
     {
-      "id": "a579107a-b0e6-47e2-922a-c860793b8a1a",
+      "id": "9d1f924d-0277-4f87-a686-c96bc8a4dee9",
       "title": "My first problem",
       "statement": "blabv al",
       "timeLimitMs": 2500,
@@ -102,10 +102,10 @@ Content-Type: application/json
 
 
 ###
-GET localhost:7070/api/contests/4761041c-7e56-4b12-8e68-f5ce1476a135
+GET localhost:7070/api/contests/24217c5f-069a-4516-bf01-372f2e1e51e0
 
 ###
-GET localhost:7070/api/contests/4761041c-7e56-4b12-8e68-f5ce1476a135/add/8d9b9c83-9e89-4449-995e-6981674838a8
+GET localhost:7070/api/contests/70c9aff5-c067-41d5-b569-2e9e0486a3ed/add/9d1f924d-0277-4f87-a686-c96bc8a4dee9
 
 ### Submit Code (Single-line Escaped JSON)
 POST http://localhost:7070/api/submit
@@ -122,3 +122,33 @@ GET localhost:7070/api/submissions/b7289fc6-36b2-41c6-8b53-4edeb820a361
 
 ###
 GET localhost:7070/api/submissions?userId=e480d131-e835-4e7a-b71f-d5e139c9f634
+
+
+###
+POST http://localhost:7070/api/contests
+Content-Type: application/json
+
+{
+  "name": "Contestroblems2",
+  "startTime": "2026-11-01T10:00:00",
+  "endTime": "2026-11-01T12:00:00",
+  "problems": [
+    {
+      "id": "9d1f924d-0277-4f87-a686-c96bc8a4dee9"
+    }
+  ]
+}
+
+###
+POST http://localhost:7070/api/contests
+Content-Type: application/json
+
+{
+  "name": "Mycontest2",
+  "startTime": "2026-11-01T10:00:00",
+  "endTime": "2026-11-01T12:00:00",
+  "problems": []
+}
+
+### PROPER WAY: CREATE CONTEST THAN ADD PORLBMES SEPARATELY WITH ID
+

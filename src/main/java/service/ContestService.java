@@ -5,19 +5,22 @@ import exception.ProblemNotFoundException;
 import exception.ValidationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import model.Contest;
 import model.Problem;
-import repository.ContestRepository;
-import repository.ProblemRepository;
+import repositoryDataBase.ContestDataBaseRepository;
+import repositoryDataBase.ProblemDataBaseRepository;
 
 public class ContestService {
-  public ContestRepository contestRepository;
-  public ProblemRepository problemRepository;
+  public ContestDataBaseRepository contestDataBaseRepository;
+  public ProblemDataBaseRepository problemDataBaseRepository;
 
-  public ContestService(ContestRepository contestRepository, ProblemRepository problemRepository) {
-    this.contestRepository = contestRepository;
-    this.problemRepository = problemRepository;
+  public ContestService(
+      ContestDataBaseRepository contestDataBaseRepository,
+      ProblemDataBaseRepository problemDataBaseRepository) {
+    this.contestDataBaseRepository = contestDataBaseRepository;
+    this.problemDataBaseRepository = problemDataBaseRepository;
   }
 
   public void createContest(String name, LocalDateTime startTime, LocalDateTime endTime) {
@@ -25,7 +28,7 @@ public class ContestService {
         || endTime.isBefore(startTime)
         || endTime.isEqual(startTime)) throw new ValidationException("Date Time is not valid");
     Contest contest = new Contest(name, startTime, endTime);
-    contestRepository.save(contest);
+    contestDataBaseRepository.save(contest);
   }
 
   public Contest createContest(
@@ -34,40 +37,44 @@ public class ContestService {
         || endTime.isBefore(startTime)
         || endTime.isEqual(startTime)) throw new ValidationException("Date Time is not valid");
     Contest contest = new Contest(name, startTime, endTime, problems);
-    contestRepository.save(contest);
+    contestDataBaseRepository.save(contest);
     return contest;
   }
 
   public Contest getContestById(UUID id) {
-    return contestRepository
+    return contestDataBaseRepository
         .findById(id)
         .orElseThrow(() -> new ContestNotFoundException("Can not find contest with id: " + id));
   }
 
   public Contest getContestByName(String name) {
-    return contestRepository
+    return contestDataBaseRepository
         .getContestByName(name)
         .orElseThrow(() -> new ContestNotFoundException("Can not find contest with name: " + name));
   }
 
+  public List<Contest> getAll() {
+    return contestDataBaseRepository.findAll();
+  }
+
   public void deleteContestById(UUID id) {
-    if (!contestRepository.deleteById(id))
+    if (!contestDataBaseRepository.deleteById(id))
       throw new ContestNotFoundException("Can not found contest with id: " + id);
   }
 
   public Contest addProblemToContest(UUID problemId, UUID contestID) {
     Problem problem =
-        problemRepository
+        problemDataBaseRepository
             .findById(problemId)
             .orElseThrow(() -> new ProblemNotFoundException("Can not find problem: " + problemId));
 
     Contest contest =
-        contestRepository
+        contestDataBaseRepository
             .findById(contestID)
             .orElseThrow(() -> new ContestNotFoundException("can not find contest: " + contestID));
 
     contest.addProblem(problem);
-    contestRepository.save(contest);
+    contestDataBaseRepository.save(contest);
     return contest;
   }
 }

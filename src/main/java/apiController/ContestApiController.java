@@ -5,6 +5,8 @@ import dto.CreateContestRequest;
 import exception.ContestNotFoundException;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+
+import java.util.List;
 import java.util.UUID;
 import model.Contest;
 import service.ContestService;
@@ -41,6 +43,13 @@ public class ContestApiController {
         ctx.json(contest);
       } catch (Exception e) {
         ctx.status(HttpStatus.NOT_FOUND).json("The contest can not be found");
+      }
+    } else {
+      try {
+        List<Contest> contest = contestService.getAll();
+        ctx.json(contest);
+      } catch (Exception e) {
+        ctx.status(HttpStatus.NOT_FOUND).json("No contests can be found");
       }
     }
   }
