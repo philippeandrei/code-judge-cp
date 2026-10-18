@@ -28,12 +28,12 @@ POST http://localhost:7070/api/users
 Content-Type: application/json
 
 {
-  "username": "philippe",
-  "email": "philippe@gmail.com"
+  "username": "andrei",
+  "email": "andr@gmail.com"
 }
 
 ###
-DELETE http://localhost:7070/api/users/e480d131-e835-4e7a-b71f-d5e139c9f605
+DELETE http://localhost:7070/api/users/eba191a4-c716-495f-809c-08d5fe6c0de1
 
 
 ###
@@ -42,20 +42,20 @@ POST http://localhost:7070/api/problems
 Content-Type: application/json
 
 {
-  "title": "Sum of Two Numbers",
-  "statement": "Given two integers, print their sum.",
+  "title": "diference of two given numbers",
+  "statement": "Given two integers, print their difference.",
   "timeLimitMs": 1000,
   "memoryLimitKb": 256000,
   "testCases": [
     {
       "input": "2 3",
-      "expectedOutput": "5"
+      "expectedOutput": "-1"
     }
   ],
   "categories": [
     {
       "name": "Math",
-      "difficulty": "EASY"
+      "difficulty": "HARD"
     }
   ]
 }
@@ -112,8 +112,8 @@ POST http://localhost:7070/api/submit
 Content-Type: application/json
 
 {
-  "userId": "e480d131-e835-4e7a-b71f-d5e139c9f634",
-  "problemId": "8d9b9c83-9e89-4449-995e-6981674838a8",
+  "userId": "b30114e7-435c-4fd9-933f-4704ce92baba",
+  "problemId": "9d1f924d-0277-4f87-a686-c96bc8a4dee9",
   "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = newScanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}"
 }
 

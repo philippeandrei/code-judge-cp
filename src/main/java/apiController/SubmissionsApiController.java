@@ -6,44 +6,37 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import model.Submission;
+import model.SubmissionStatusEnum;
 import service.JudgeService;
+import service.SubmissionQueueService;
 import service.SubmissionService;
+
+import static model.SubmissionStatusEnum.PENDING;
 
 public class SubmissionsApiController {
   public JudgeService judgeService;
   public SubmissionService submissionService;
-
-  public SubmissionsApiController(JudgeService judgeService, SubmissionService submissionService) {
+  public SubmissionQueueService submissionQueueService;
+  public SubmissionsApiController(JudgeService judgeService, SubmissionService submissionService, SubmissionQueueService submissionQueueService) {
     this.judgeService = judgeService;
     this.submissionService = submissionService;
+    this.submissionQueueService = submissionQueueService;
   }
 
   public void submit(Context ctx) throws Exception {
     CreateSubmissionRequest req = ctx.bodyAsClass(CreateSubmissionRequest.class);
 
-    try {
-      Path tempDir = Files.createTempDirectory("judge_submission_");
-      Path sourceFilePath = tempDir.resolve("Solution.java");
-      Files.writeString(sourceFilePath, req.getSourceCode());
+      Submission submission = submissionService.createSubmission(req.getUserId(), req.getProblemId(), req.getSourceCode(), LocalDateTime.now());
+      submission.setStatus(SubmissionStatusEnum.PENDING);
+      submissionService.submissionDataBaseRepository.save(submission);
 
-      // 2. Run the judge service with that file path
-      Submission submission =
-          judgeService.submitProblem(
-              req.getUserId(), req.getProblemId(), sourceFilePath.toString());
+      submissionQueueService.enqueue(submission.getId());
 
-      // 3. Return the result
-      if (submission == null) {
-        ctx.status(HttpStatus.INTERNAL_SERVER_ERROR).json("Failed to process submission");
-        return;
-      }
-      ctx.status(HttpStatus.CREATED).json(submission);
-
-    } catch (Exception e) {
-      ctx.status(HttpStatus.BAD_REQUEST).json("Exception returned: " + e);
-    }
+      ctx.status(HttpStatus.ACCEPTED).json(submission);
   }
 
   public void getById(Context ctx) {

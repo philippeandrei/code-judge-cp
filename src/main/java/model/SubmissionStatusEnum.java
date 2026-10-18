@@ -2,6 +2,7 @@ package model;
 
 public enum SubmissionStatusEnum {
   PENDING,
+  RUNNING,
   COMPILING,
   RUNNING_TESTS,
   WRONG_ANSWER,

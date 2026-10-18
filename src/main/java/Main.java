@@ -7,6 +7,7 @@ import repository.SubmissionRepository;
 import repository.UserRepository;
 import repositoryDataBase.ContestDataBaseRepository;
 import repositoryDataBase.ProblemDataBaseRepository;
+import repositoryDataBase.SubmissionDataBaseRepository;
 import repositoryDataBase.UserDataBaseRepository;
 import service.*;
 
@@ -33,11 +34,12 @@ public class Main {
 
     JudgeService judgeService = new JudgeService();
     JudgeApiController judgeApiController = new JudgeApiController(judgeService);
-
+      SubmissionDataBaseRepository submissionDataBaseRepository = new SubmissionDataBaseRepository();
     SubmissionRepository submissionRepository = new SubmissionRepository();
-    SubmissionService submissionService = new SubmissionService(submissionRepository);
+    SubmissionQueueService submissionQueueService = new SubmissionQueueService(judgeService);
+    SubmissionService submissionService = new SubmissionService(submissionDataBaseRepository);
     SubmissionsApiController submissionsApiController =
-        new SubmissionsApiController(judgeService, submissionService);
+        new SubmissionsApiController(judgeService, submissionService, submissionQueueService);
 
     Javalin.create(
             config -> {

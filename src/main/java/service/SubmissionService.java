@@ -5,45 +5,45 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import model.Submission;
-import repository.SubmissionRepository;
+import repositoryDataBase.SubmissionDataBaseRepository;
 
 public class SubmissionService {
-  public SubmissionRepository submissionRepository;
+  public SubmissionDataBaseRepository submissionDataBaseRepository;
 
-  public SubmissionService(SubmissionRepository submissionRepository) {
-    this.submissionRepository = submissionRepository;
+  public SubmissionService(SubmissionDataBaseRepository submissionDataBaseRepository) {
+    this.submissionDataBaseRepository = submissionDataBaseRepository;
   }
 
   public Submission createSubmission(
       UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime) {
     Submission submission = new Submission(userId, problemId, sourceCode, submittedTime, "");
-    submissionRepository.save(submission);
+    submissionDataBaseRepository.save(submission);
     return submission;
   }
 
   public Submission getSubmissionById(UUID id) {
-    return submissionRepository
+    return submissionDataBaseRepository
         .findById(id)
         .orElseThrow(() -> new SubmissionNotFoundException("Couldn't find submission: " + id));
   }
 
   public List<Submission> getAllSubmissions() {
-    return submissionRepository.findAll();
+    return submissionDataBaseRepository.findAll();
   }
 
   public List<Submission> getAllSubmissionsOfUser(UUID id) {
-    return submissionRepository.getSubmissionsOfUser(id);
+    return submissionDataBaseRepository.getSubmissionsOfUser(id);
   }
 
   public List<Submission> getAllSubmissionsOfProblem(UUID id) {
-    return submissionRepository.getSubmissionsOfProblem(id);
+    return submissionDataBaseRepository.getSubmissionsOfProblem(id);
   }
 
   public List<Submission> getAllSubmissionOfProblemFromUser(UUID problemId, UUID userId) {
-    return submissionRepository.getSubmissionsOfUserOfProblem(userId, problemId);
+    return submissionDataBaseRepository.getSubmissionsOfUserOfProblem(userId, problemId);
   }
 
   public boolean deleteSubmission(UUID id) {
-    return submissionRepository.deleteById(id);
+    return submissionDataBaseRepository.deleteById(id);
   }
 }

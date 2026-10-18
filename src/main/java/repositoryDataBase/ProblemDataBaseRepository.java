@@ -61,7 +61,7 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
           Category cat = new Category();
           cat.setId(rs.getObject("id", UUID.class));
           cat.setName(rs.getString("name"));
-          cat.setDifficulty(CategoryDifficultyEnum.valueOf(rs.getString("difficulty")));
+          cat.setDifficulty(CategoryDifficultyEnum.valueOf(rs.getString("difficulty").toUpperCase()));
           list.add(cat);
         }
       }
