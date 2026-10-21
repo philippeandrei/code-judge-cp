@@ -6,6 +6,7 @@ import model.SubmissionStatusEnum;
 import model.User;
 import repository.CrudRepository;
 import java.sql.*;
+import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +23,19 @@ public class SubmissionDataBaseRepository implements CrudRepository<Submission, 
     }
 
     private Submission mapRowToSubmission(ResultSet rs) throws SQLException {
-    Submission submission = new Submission();
+        Submission submission = new Submission();
         submission.setId(rs.getObject("id", UUID.class));
-        submission.setProblemId(UUID.fromString(rs.getString("problemid")));
-        submission.setUserId(UUID.fromString(rs.getString("userid")));
-        submission.setStatus(SubmissionStatusEnum.valueOf(rs.getString("status")));
+        submission.setProblemId(rs.getObject("problemid", UUID.class));
+        submission.setUserId(rs.getObject("userid", UUID.class));
+        String status = rs.getString("status");
+        if (status != null) {
+            submission.setStatus(SubmissionStatusEnum.valueOf(status));
+        }
         submission.setSourceCode(rs.getString("sourcecode"));
         Timestamp submittedtime = rs.getTimestamp("submittedtime");
-        submission.setSubmittedTime(submittedtime.toLocalDateTime());
+        if (submittedtime != null) {
+            submission.setSubmittedTime(submittedtime.toLocalDateTime());
+        }
         submission.setErrorMessage(rs.getString("errormessage"));
         return submission;
     }
@@ -37,25 +43,30 @@ public class SubmissionDataBaseRepository implements CrudRepository<Submission, 
 
     @Override
     public Submission save(Submission submission) {
-        if(submission.getId() == null){
+        if (submission.getId() == null) {
             submission.setId(UUID.randomUUID());
         }
-        String sql = "MERGE INTO submissions KEY(id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        if (submission.getStatus() == null) {
+            submission.setStatus(SubmissionStatusEnum.PENDING);
+        }
+        if (submission.getSubmittedTime() == null) {
+            submission.setSubmittedTime(LocalDateTime.now());
+        }
+        String sql = "MERGE INTO submissions (id, userid, problemid, sourcecode, status, submittedtime, errormessage) KEY(id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setObject(1, submission.getId());
             stmt.setObject(2, submission.getUserId());
             stmt.setObject(3, submission.getProblemId());
             stmt.setString(4, submission.getSourceCode());
-            stmt.setObject(5, submission.getStatus());
-            stmt.setObject(6, submission.getSubmittedTime());
+            stmt.setString(5, submission.getStatus().name());
+            stmt.setTimestamp(6, Timestamp.valueOf(submission.getSubmittedTime()));
             stmt.setString(7, submission.getErrorMessage());
             stmt.executeUpdate();
             return submission;
         } catch (SQLException e) {
             throw new DataAccessException("Failed to save submission", e);
         }
-
     }
 
     @Override

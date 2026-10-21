@@ -2,12 +2,8 @@ package repositoryDataBase;
 
 import exception.DataAccessException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import model.Contest;
-import model.Problem;
+import java.util.*;
+import model.*;
 import repository.CrudRepository;
 
 public class ContestDataBaseRepository implements CrudRepository<Contest, UUID> {
@@ -46,18 +42,72 @@ public class ContestDataBaseRepository implements CrudRepository<Contest, UUID> 
 
   private List<Problem> findProblemsByContestId(Connection conn, UUID contestId)
       throws SQLException {
-    String sql = "SELECT problemid FROM contest_problems WHERE contestid = ?";
+
+    Map<UUID, Problem> problemMap = new LinkedHashMap<>();
+    // First query: takes the problems from the contest, with their specific data
+    String problemsSql =
+        "SELECT p.id, p.title, p.statement, p.timelimitms, p.memorylimitkb FROM problems p JOIN contest_problems cp ON p.id = cp.problemid WHERE cp.contestid = ?";
     List<Problem> problems = new ArrayList<>();
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+    try (PreparedStatement stmt = conn.prepareStatement(problemsSql)) {
+      stmt.setObject(1, contestId);
+      try (ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          Problem problem = new Problem();
+          problem.setId(rs.getObject("id", UUID.class));
+          problem.setTitle(rs.getString("title"));
+          problem.setStatement(rs.getString("statement"));
+          problem.setTimeLimitMs(rs.getLong("timelimitms"));
+          problem.setMemoryLimitKb(rs.getLong("memorylimitkb"));
+          problemMap.put(problem.getId(), problem);
+        }
+      }
+    }
+
+    if (problemMap.isEmpty()) {
+      return new ArrayList<>(); // daca e gol return direct
+    }
+    // Second Query: Gets the testcases for each problem and adds it to the problem objects in the
+    // hashmaps
+    String testCasesSql =
+        "SELECT tc.problemid, tc.input, tc.expectedoutput FROM test_cases tc JOIN contest_problems cp ON tc.problemid = cp.problemid WHERE cp.contestid = ?";
+
+    try (PreparedStatement stmt = conn.prepareStatement(testCasesSql)) {
       stmt.setObject(1, contestId);
       try (ResultSet rs = stmt.executeQuery()) {
         while (rs.next()) {
           UUID problemId = rs.getObject("problemid", UUID.class);
-          problemRepository.findById(problemId).ifPresent(problems::add);
+          Problem problem = problemMap.get(problemId);
+          if (problem != null) {
+            problem.addTestCase(
+                new TestCase(rs.getString("input"), rs.getString("expectedoutput")));
+          }
         }
       }
     }
-    return problems;
+    // Third query: gets the categories for all problems from the contest
+    String categoriesSql =
+        "SELECT pc.problemid, c.id, c.name, c.difficulty FROM categories c JOIN problem_categories pc ON c.id = pc.categoryid JOIN contest_problems cp ON pc.problemid = cp.problemid WHERE cp.contestid = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(categoriesSql)) {
+      stmt.setObject(1, contestId);
+      try (ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          UUID problemId = rs.getObject("problemid", UUID.class);
+          Problem problem = problemMap.get(problemId);
+          if (problem != null) {
+            Category category = new Category();
+            category.setId(rs.getObject("id", UUID.class));
+            category.setName(rs.getString("name"));
+            String diff = rs.getString("difficulty");
+            if (diff != null) {
+              category.setDifficulty(CategoryDifficultyEnum.valueOf(diff.toUpperCase()));
+            }
+            problem.addCategory(category);
+          }
+        }
+      }
+    }
+
+    return new ArrayList<>(problemMap.values());
   }
 
   @Override
@@ -135,18 +185,27 @@ public class ContestDataBaseRepository implements CrudRepository<Contest, UUID> 
   @Override
   public List<Contest> findAll() {
     String sql = "SELECT id, name, starttime, endtime FROM contests";
-    List<Contest> contests = new ArrayList<>();
-    try (Connection conn = getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery()) {
-      while (rs.next()) {
-        Contest contest = mapRowToContest(rs);
-        contest.setProblems(findProblemsByContestId(conn, contest.getId()));
-        contests.add(contest);
+    //    List<Contest> contests = new ArrayList<>();
+    HashMap<UUID, Contest> contestMap = new LinkedHashMap<>();
+    try (Connection conn = getConnection()) {
+      try (PreparedStatement stmt = conn.prepareStatement(sql);
+          ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          Contest contest = mapRowToContest(rs);
+          //contest.setProblems(findProblemsByContestId(conn, contest.getId()));
+          contestMap.put(contest.getId(), contest);
+        }
+        if(contestMap.isEmpty()) return new ArrayList<>();
+
+      } catch (SQLException e) {
+        throw new DataAccessException("Failed to fetch all contests", e);
       }
-      return contests;
-    } catch (SQLException e) {
-      throw new DataAccessException("Failed to fetch all contests", e);
+
+//      String sql2 = "SELECT problem"
+
+
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
   }
 

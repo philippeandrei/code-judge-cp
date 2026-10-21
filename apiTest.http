@@ -114,7 +114,7 @@ Content-Type: application/json
 {
   "userId": "b30114e7-435c-4fd9-933f-4704ce92baba",
   "problemId": "9d1f924d-0277-4f87-a686-c96bc8a4dee9",
-  "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = newScanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}"
+  "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a - b);\n    }\n}"
 }
 
 ###
@@ -151,4 +151,7 @@ Content-Type: application/json
 }
 
 ### PROPER WAY: CREATE CONTEST THAN ADD PORLBMES SEPARATELY WITH ID
+
+###
+GET localhost:7070/api/contests/70c9aff5-c067-41d5-b569-2e9e0486a3ed
 

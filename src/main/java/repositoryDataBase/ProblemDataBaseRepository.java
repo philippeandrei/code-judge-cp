@@ -2,10 +2,7 @@ package repositoryDataBase;
 
 import exception.DataAccessException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import model.Category;
 import model.CategoryDifficultyEnum;
 import model.Problem;
@@ -61,7 +58,8 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
           Category cat = new Category();
           cat.setId(rs.getObject("id", UUID.class));
           cat.setName(rs.getString("name"));
-          cat.setDifficulty(CategoryDifficultyEnum.valueOf(rs.getString("difficulty").toUpperCase()));
+          cat.setDifficulty(
+              CategoryDifficultyEnum.valueOf(rs.getString("difficulty").toUpperCase()));
           list.add(cat);
         }
       }
@@ -76,14 +74,14 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
     }
 
     String saveProblemSql =
-            "MERGE INTO problems (id, title, statement, timelimitms, memorylimitkb) "
-                    + "KEY(id) VALUES (?, ?, ?, ?, ?)";
+        "MERGE INTO problems (id, title, statement, timelimitms, memorylimitkb) "
+            + "KEY(id) VALUES (?, ?, ?, ?, ?)";
     String clearTestCasesSql = "DELETE FROM test_cases WHERE problemid = ?";
     String insertTestCaseSql =
-            "INSERT INTO test_cases (id, problemid, input, expectedoutput) VALUES (?, ?, ?, ?)";
+        "INSERT INTO test_cases (id, problemid, input, expectedoutput) VALUES (?, ?, ?, ?)";
     String clearCategoriesSql = "DELETE FROM problem_categories WHERE problemid = ?";
     String insertCategorySql =
-            "MERGE INTO problem_categories (problemid, categoryid) KEY(problemid, categoryid) VALUES (?, ?)";
+        "MERGE INTO problem_categories (problemid, categoryid) KEY(problemid, categoryid) VALUES (?, ?)";
 
     try (Connection conn = getConnection()) {
       conn.setAutoCommit(false);
@@ -126,8 +124,8 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
           String insertCatSql = "INSERT INTO categories (id, name, difficulty) VALUES (?, ?, ?)";
 
           try (PreparedStatement insertLinkStmt = conn.prepareStatement(insertCategorySql);
-               PreparedStatement findCatStmt = conn.prepareStatement(findCatSql);
-               PreparedStatement insertCatStmt = conn.prepareStatement(insertCatSql)) {
+              PreparedStatement findCatStmt = conn.prepareStatement(findCatSql);
+              PreparedStatement insertCatStmt = conn.prepareStatement(insertCatSql)) {
 
             for (Category cat : problem.getCategories()) {
               UUID categoryId = cat.getId();
@@ -141,7 +139,9 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
                     categoryId = UUID.randomUUID();
                     insertCatStmt.setObject(1, categoryId);
                     insertCatStmt.setString(2, cat.getName());
-                    insertCatStmt.setString(3, cat.getDifficulty() != null
+                    insertCatStmt.setString(
+                        3,
+                        cat.getDifficulty() != null
                             ? cat.getDifficulty().name()
                             : CategoryDifficultyEnum.EASY.name());
                     insertCatStmt.executeUpdate();
@@ -168,7 +168,6 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
       throw new DataAccessException("Failed to save problem", e);
     }
   }
-
 
   @Override
   public Optional<Problem> findById(UUID id) {
@@ -214,17 +213,57 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
   @Override
   public List<Problem> findAll() {
     String sql = "SELECT id, title, statement, timelimitms, memorylimitkb FROM problems";
-    List<Problem> problems = new ArrayList<>();
-    try (Connection conn = getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery()) {
-      while (rs.next()) {
-        Problem problem = mapRowToProblem(rs);
-        problem.setTestCases(findTestCasesByProblemId(conn, problem.getId()));
-        problem.setCategories(findCategoriesByProblemId(conn, problem.getId()));
-        problems.add(problem);
+    Map<UUID, Problem> problemMap = new LinkedHashMap<>();
+
+    try (Connection conn = getConnection()) {
+      try (PreparedStatement stmt = conn.prepareStatement(sql);
+          ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          Problem problem = mapRowToProblem(rs);
+          //        problem.setTestCases(findTestCasesByProblemId(conn, problem.getId()));
+          //        problem.setCategories(findCategoriesByProblemId(conn, problem.getId()));
+          problemMap.put(problem.getId(), problem);
+        }
+        if (problemMap.isEmpty()) return new ArrayList<>();
+
+        // get all testcases
       }
-      return problems;
+
+      String testCasesSql = "SELECT problemid, input, expectedoutput FROM test_cases";
+      try (PreparedStatement stmt = conn.prepareStatement(testCasesSql);
+          ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          UUID problemId = rs.getObject("problemid", UUID.class);
+          Problem problem = problemMap.get(problemId);
+          if (problem != null) {
+            problem.addTestCase(
+                new TestCase(rs.getString("input"), rs.getString("expectedoutput")));
+          }
+        }
+      }
+
+      String categoriesSql =
+          "SELECT pc.problemid, c.id, c.name, c.difficulty FROM categories c JOIN problem_categories pc ON c.id = pc.categoryid";
+      try (PreparedStatement stmt = conn.prepareStatement(categoriesSql);
+          ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          UUID problemId = rs.getObject("problemid", UUID.class);
+          Problem problem = problemMap.get(problemId);
+          if (problem != null) {
+            Category category = new Category();
+            category.setId(rs.getObject("id", UUID.class));
+            category.setName(rs.getString("name"));
+            String diff = rs.getString("difficulty");
+            if (diff != null) {
+              category.setDifficulty(CategoryDifficultyEnum.valueOf(diff.toUpperCase()));
+            }
+            problem.addCategory(category);
+          }
+        }
+      }
+
+      return new ArrayList<>(problemMap.values());
+
 
     } catch (SQLException e) {
       throw new DataAccessException("Failed to fetch all problems", e);
@@ -236,7 +275,7 @@ public class ProblemDataBaseRepository implements CrudRepository<Problem, UUID> 
     String sql = "DELETE FROM problems WHERE id = ?";
     try (Connection conn = getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setObject(1, id);
+      stmt.setObject(1, id);
       return stmt.executeUpdate() > 0;
     } catch (SQLException e) {
       throw new DataAccessException("Failed to delete problem", e);
