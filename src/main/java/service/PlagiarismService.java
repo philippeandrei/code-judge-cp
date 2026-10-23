@@ -1,7 +1,10 @@
 package service;
 
+import com.google.inject.Singleton;
+
 import static java.lang.Math.min;
 
+@Singleton
 public class PlagiarismService {
 
   public String normaliseCode(String rawCode) {

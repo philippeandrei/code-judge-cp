@@ -1,11 +1,11 @@
 package apiController;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import dto.CreateSubmissionRequest;
 import dto.SubmissionResponseDto;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -15,13 +15,17 @@ import service.JudgeService;
 import service.SubmissionQueueService;
 import service.SubmissionService;
 
-import static model.SubmissionStatusEnum.PENDING;
-
+@Singleton
 public class SubmissionsApiController {
   public JudgeService judgeService;
   public SubmissionService submissionService;
   public SubmissionQueueService submissionQueueService;
-  public SubmissionsApiController(JudgeService judgeService, SubmissionService submissionService, SubmissionQueueService submissionQueueService) {
+
+  @Inject
+  public SubmissionsApiController(
+      JudgeService judgeService,
+      SubmissionService submissionService,
+      SubmissionQueueService submissionQueueService) {
     this.judgeService = judgeService;
     this.submissionService = submissionService;
     this.submissionQueueService = submissionQueueService;
@@ -30,13 +34,15 @@ public class SubmissionsApiController {
   public void submit(Context ctx) throws Exception {
     CreateSubmissionRequest req = ctx.bodyAsClass(CreateSubmissionRequest.class);
 
-      Submission submission = submissionService.createSubmission(req.getUserId(), req.getProblemId(), req.getSourceCode(), LocalDateTime.now());
-      submission.setStatus(SubmissionStatusEnum.PENDING);
-      submissionService.submissionDataBaseRepository.save(submission);
+    Submission submission =
+        submissionService.createSubmission(
+            req.getUserId(), req.getProblemId(), req.getSourceCode(), LocalDateTime.now());
+    submission.setStatus(SubmissionStatusEnum.PENDING);
+    submissionService.submissionDataBaseRepository.save(submission);
 
-      submissionQueueService.enqueue(submission.getId());
+    submissionQueueService.enqueue(submission.getId());
 
-      ctx.status(HttpStatus.ACCEPTED).json(submission);
+    ctx.status(HttpStatus.ACCEPTED).json(submission);
   }
 
   public void getById(Context ctx) {

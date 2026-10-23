@@ -1,14 +1,17 @@
 package service;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import exception.UserNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import model.User;
 import repositoryDataBase.UserDataBaseRepository;
-
-public class UserService {
+@Singleton
+public class UserService implements IUserService {
   public UserDataBaseRepository userDataBaseRepository;
 
+  @Inject
   public UserService(UserDataBaseRepository userDataBaseRepository) {
     this.userDataBaseRepository = userDataBaseRepository;
   }

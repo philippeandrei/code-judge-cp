@@ -3,13 +3,16 @@ package controller;
 import exception.CodeJudgeException;
 import exception.ProblemNotFoundException;
 import java.util.UUID;
+
+import jakarta.inject.Inject;
 import model.Problem;
+import service.IProblemService;
 import service.ProblemService;
 
 public class ProblemController {
-  public ProblemService problemService;
-
-  public ProblemController(ProblemService problemService) {
+  public IProblemService problemService;
+  @Inject
+  public ProblemController(IProblemService problemService) {
     this.problemService = problemService;
   }
 

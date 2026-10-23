@@ -15,6 +15,7 @@ public class Problem {
   private List<Category> categories;
 
   public Problem() {
+    this.id = UUID.randomUUID();
     this.testCases = new ArrayList<>();
     this.categories = new ArrayList<>();
   }

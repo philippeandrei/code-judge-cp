@@ -1,5 +1,6 @@
 package repositoryDataBase;
 
+import com.google.inject.Singleton;
 import exception.DataAccessException;
 import model.Submission;
 import model.SubmissionStatusEnum;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Singleton
 public class SubmissionDataBaseRepository implements CrudRepository<Submission, UUID> {
     private static final String DB_URL = "jdbc:h2:./data/code-judge;AUTO_SERVER=TRUE";
     private static final String DB_USER = "sa";

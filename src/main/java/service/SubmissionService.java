@@ -1,5 +1,7 @@
 package service;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import exception.SubmissionNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,9 +9,11 @@ import java.util.UUID;
 import model.Submission;
 import repositoryDataBase.SubmissionDataBaseRepository;
 
+@Singleton
 public class SubmissionService {
   public SubmissionDataBaseRepository submissionDataBaseRepository;
 
+  @Inject
   public SubmissionService(SubmissionDataBaseRepository submissionDataBaseRepository) {
     this.submissionDataBaseRepository = submissionDataBaseRepository;
   }

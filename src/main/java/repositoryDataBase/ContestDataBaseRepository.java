@@ -3,9 +3,13 @@ package repositoryDataBase;
 import exception.DataAccessException;
 import java.sql.*;
 import java.util.*;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import model.*;
 import repository.CrudRepository;
 
+@Singleton
 public class ContestDataBaseRepository implements CrudRepository<Contest, UUID> {
   private static final String DB_URL = "jdbc:h2:./data/code-judge;AUTO_SERVER=TRUE";
   private static final String DB_USER = "sa";
@@ -13,6 +17,7 @@ public class ContestDataBaseRepository implements CrudRepository<Contest, UUID> 
 
   private final ProblemDataBaseRepository problemRepository;
 
+  @Inject
   public ContestDataBaseRepository() {
     this.problemRepository = new ProblemDataBaseRepository();
   }
@@ -185,29 +190,47 @@ public class ContestDataBaseRepository implements CrudRepository<Contest, UUID> 
   @Override
   public List<Contest> findAll() {
     String sql = "SELECT id, name, starttime, endtime FROM contests";
-    //    List<Contest> contests = new ArrayList<>();
-    HashMap<UUID, Contest> contestMap = new LinkedHashMap<>();
-    try (Connection conn = getConnection()) {
-      try (PreparedStatement stmt = conn.prepareStatement(sql);
-          ResultSet rs = stmt.executeQuery()) {
-        while (rs.next()) {
-          Contest contest = mapRowToContest(rs);
-          //contest.setProblems(findProblemsByContestId(conn, contest.getId()));
-          contestMap.put(contest.getId(), contest);
-        }
-        if(contestMap.isEmpty()) return new ArrayList<>();
-
-      } catch (SQLException e) {
-        throw new DataAccessException("Failed to fetch all contests", e);
+    List<Contest> contests = new ArrayList<>();
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+      while (rs.next()) {
+        Contest contest = mapRowToContest(rs);
+        contest.setProblems(findProblemsByContestId(conn, contest.getId()));
+        contests.add(contest);
       }
-
-//      String sql2 = "SELECT problem"
-
-
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+      return contests;
+    } catch (SQLException e) {
+      throw new DataAccessException("Failed to fetch all contests", e);
     }
   }
+
+//  @Override
+//  public List<Contest> findAll() {
+//    String sql = "SELECT id, name, starttime, endtime FROM contests";
+//    //    List<Contest> contests = new ArrayList<>();
+//    HashMap<UUID, Contest> contestMap = new LinkedHashMap<>();
+//    try (Connection conn = getConnection()) {
+//      try (PreparedStatement stmt = conn.prepareStatement(sql);
+//          ResultSet rs = stmt.executeQuery()) {
+//        while (rs.next()) {
+//          Contest contest = mapRowToContest(rs);
+//          //contest.setProblems(findProblemsByContestId(conn, contest.getId()));
+//          contestMap.put(contest.getId(), contest);
+//        }
+//        if(contestMap.isEmpty()) return new ArrayList<>();
+//
+//      } catch (SQLException e) {
+//        throw new DataAccessException("Failed to fetch all contests", e);
+//      }
+//
+////      String sql2 = "SELECT problem"
+//
+//
+//    } catch (Exception e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 
   public Optional<Contest> getContestByName(String name) {
     String sql = "SELECT id, name, starttime, endtime FROM contests WHERE name = ?";

@@ -1,14 +1,8 @@
 import apiController.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import io.javalin.Javalin;
 import java.util.*;
-import repository.ContestRepository;
-import repository.ProblemRepository;
-import repository.SubmissionRepository;
-import repository.UserRepository;
-import repositoryDataBase.ContestDataBaseRepository;
-import repositoryDataBase.ProblemDataBaseRepository;
-import repositoryDataBase.SubmissionDataBaseRepository;
-import repositoryDataBase.UserDataBaseRepository;
 import service.*;
 
 public class Main {
@@ -17,29 +11,13 @@ public class Main {
   }
 
   public static void runApi() {
-    UserRepository userRepository = new UserRepository();
-    UserDataBaseRepository userDataBaseRepository = new UserDataBaseRepository();
-    UserService userService = new UserService(userDataBaseRepository);
-    UserApiController userApiController = new UserApiController(userService);
+    Injector injector = Guice.createInjector(new AppModule());
 
-    ProblemDataBaseRepository problemDataBaseRepository = new ProblemDataBaseRepository();
-    ProblemRepository problemRepository = new ProblemRepository();
-    ProblemService problemService = new ProblemService(problemDataBaseRepository);
-    ProblemApiController problemApiController = new ProblemApiController(problemService);
-
-    ContestRepository contestRepository = new ContestRepository();
-    ContestDataBaseRepository contestDataBaseRepository = new ContestDataBaseRepository();
-    ContestService contestService = new ContestService(contestDataBaseRepository, problemDataBaseRepository);
-    ContestApiController contestApiController = new ContestApiController(contestService);
-
-    JudgeService judgeService = new JudgeService();
-    JudgeApiController judgeApiController = new JudgeApiController(judgeService);
-      SubmissionDataBaseRepository submissionDataBaseRepository = new SubmissionDataBaseRepository();
-    SubmissionRepository submissionRepository = new SubmissionRepository();
-    SubmissionQueueService submissionQueueService = new SubmissionQueueService(judgeService);
-    SubmissionService submissionService = new SubmissionService(submissionDataBaseRepository);
+    UserApiController userApiController = injector.getInstance(UserApiController.class);
+    ProblemApiController problemApiController = injector.getInstance(ProblemApiController.class);
+    ContestApiController contestApiController = injector.getInstance(ContestApiController.class);
     SubmissionsApiController submissionsApiController =
-        new SubmissionsApiController(judgeService, submissionService, submissionQueueService);
+        injector.getInstance(SubmissionsApiController.class);
 
     Javalin.create(
             config -> {

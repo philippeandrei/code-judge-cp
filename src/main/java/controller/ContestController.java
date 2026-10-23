@@ -3,15 +3,19 @@ package controller;
 import exception.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import jakarta.inject.Inject;
 import model.Contest;
 import service.ContestService;
+import service.IProblemService;
 import service.ProblemService;
 
 public class ContestController {
   public ContestService contestService;
-  public ProblemService problemService;
+  public IProblemService problemService;
 
-  public ContestController(ContestService contestService, ProblemService problemService) {
+  @Inject
+  public ContestController(ContestService contestService, IProblemService problemService) {
     this.contestService = contestService;
     this.problemService = problemService;
   }

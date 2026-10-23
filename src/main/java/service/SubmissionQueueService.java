@@ -1,5 +1,8 @@
 package service;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -7,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@Singleton
 public class SubmissionQueueService {
   // 1. enqueue - add submission to queue -
   // 2. StartBackgroundThread
@@ -14,6 +18,7 @@ public class SubmissionQueueService {
   private final JudgeService judgeService;
   ExecutorService executor = Executors.newFixedThreadPool(3);
 
+  @Inject
   public SubmissionQueueService(JudgeService judgeService) {
     this.judgeService = judgeService;
     startBackgroundThread();

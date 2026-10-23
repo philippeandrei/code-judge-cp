@@ -1,27 +1,29 @@
 package service;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import exception.ProblemNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import model.Category;
 import model.Problem;
 import model.TestCase;
-
 import repositoryDataBase.ProblemDataBaseRepository;
 
-public class ProblemService {
+@Singleton
+public class ProblemService implements IProblemService {
   public ProblemDataBaseRepository problemDataBaseRepository;
 
+  @Inject
   public ProblemService(ProblemDataBaseRepository problemDataBaseRepository) {
     this.problemDataBaseRepository = problemDataBaseRepository;
   }
 
   // String title, String statement, long timeLimitMs, long memoryLimitKb) {
-  public Problem createProblem(
+  public void createProblem(
       String title, String statement, long timeLimitMs, long memoryLimitKb) {
     Problem problem = new Problem(title, statement, timeLimitMs, memoryLimitKb);
     problemDataBaseRepository.save(problem);
-    return problem;
   }
 
   public Problem createProblem(

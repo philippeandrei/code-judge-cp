@@ -2,6 +2,8 @@ package service;
 
 import static model.SubmissionStatusEnum.*;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -16,11 +18,27 @@ import model.TestCase;
 import repositoryDataBase.ProblemDataBaseRepository;
 import repositoryDataBase.SubmissionDataBaseRepository;
 
+@Singleton
 public class JudgeService {
-  public SubmissionDataBaseRepository submissionDataBaseRepository =
-      new SubmissionDataBaseRepository();
-  public SubmissionService submissionService = new SubmissionService(submissionDataBaseRepository);
-  public PlagiarismService plagiarismService = new PlagiarismService();
+
+  public SubmissionDataBaseRepository submissionDataBaseRepository;
+  public SubmissionService submissionService;
+  public PlagiarismService plagiarismService;
+  public IProblemService problemService;
+
+  @Inject
+  public JudgeService(
+      SubmissionDataBaseRepository submissionDataBaseRepository,
+      SubmissionService submissionService,
+      PlagiarismService plagiarismService,
+      IProblemService problemService) {
+    this.submissionDataBaseRepository = submissionDataBaseRepository;
+    this.submissionService = submissionService;
+    this.plagiarismService = plagiarismService;
+    this.problemService = problemService;
+  }
+
+
 
   public void runHardCodedTest(String path) {
     try {
@@ -90,7 +108,6 @@ public class JudgeService {
 
   public Submission submitProblem(UUID userId, UUID problemId, String pathToFolder)
       throws IOException, InterruptedException {
-    ProblemService problemService = new ProblemService(new ProblemDataBaseRepository());
 
     Problem problem = problemService.getProblemById(problemId);
     try {
@@ -328,7 +345,7 @@ public class JudgeService {
               .map(Path::toFile)
               .forEach(File::delete);
         } catch (IOException e) {
-          //empty
+          // empty
         }
       }
     }

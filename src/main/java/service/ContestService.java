@@ -1,5 +1,7 @@
 package service;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import exception.ContestNotFoundException;
 import exception.ProblemNotFoundException;
 import exception.ValidationException;
@@ -12,10 +14,12 @@ import model.Problem;
 import repositoryDataBase.ContestDataBaseRepository;
 import repositoryDataBase.ProblemDataBaseRepository;
 
+@Singleton
 public class ContestService {
   public ContestDataBaseRepository contestDataBaseRepository;
   public ProblemDataBaseRepository problemDataBaseRepository;
 
+  @Inject
   public ContestService(
       ContestDataBaseRepository contestDataBaseRepository,
       ProblemDataBaseRepository problemDataBaseRepository) {

@@ -1,5 +1,7 @@
 package apiController;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import dto.CreateUserRequest;
 import dto.UserResponseDto;
 import exception.UserNotFoundException;
@@ -9,9 +11,11 @@ import java.util.UUID;
 import model.User;
 import service.UserService;
 
+@Singleton
 public class UserApiController {
   private final UserService userService;
 
+  @Inject
   public UserApiController(UserService userService) {
     this.userService = userService;
   }

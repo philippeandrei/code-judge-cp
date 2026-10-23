@@ -1,5 +1,7 @@
 package apiController;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import dto.ContestResponseDto;
 import dto.CreateContestRequest;
 import exception.ContestNotFoundException;
@@ -11,9 +13,10 @@ import java.util.UUID;
 import model.Contest;
 import service.ContestService;
 
+@Singleton
 public class ContestApiController {
   public ContestService contestService;
-
+  @Inject
   public ContestApiController(ContestService contestService) {
     this.contestService = contestService;
   }

@@ -6,13 +6,18 @@ import exception.ProblemNotFoundException;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import java.util.UUID;
+
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import model.Problem;
+import service.IProblemService;
 import service.ProblemService;
 
+@Singleton
 public class ProblemApiController {
-  private final ProblemService problemService;
-
-  public ProblemApiController(ProblemService problemService) {
+  private final IProblemService problemService;
+  @Inject
+  public ProblemApiController(IProblemService problemService) {
     this.problemService = problemService;
   }
 
