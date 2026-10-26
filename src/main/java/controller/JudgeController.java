@@ -24,8 +24,8 @@ public class JudgeController {
     }
   }
 
-  public void handleSubmit(UUID userId, UUID problemId, String pathToFile)
+  public void handleSubmit(UUID userId, UUID problemId, String pathToFile, String language)
       throws IOException, InterruptedException {
-    judgeService.submitProblem(userId, problemId, pathToFile);
+    judgeService.submitProblem(userId, problemId, pathToFile, language);
   }
 }
