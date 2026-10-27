@@ -36,11 +36,13 @@ public class JudgeService {
       SubmissionDataBaseRepository submissionDataBaseRepository,
       SubmissionService submissionService,
       PlagiarismService plagiarismService,
-      IProblemService problemService) {
+      IProblemService problemService,
+      LanguageRunnerFactory runnerFactory) {
     this.submissionDataBaseRepository = submissionDataBaseRepository;
     this.submissionService = submissionService;
     this.plagiarismService = plagiarismService;
     this.problemService = problemService;
+    this.runnerFactory = runnerFactory;
   }
 
   public void runHardCodedTest(String path) {
@@ -132,7 +134,11 @@ public class JudgeService {
 
       Submission submission =
           submissionService.createSubmission(
-              userId, problemId, Files.readString(sourceFile.toPath()), LocalDateTime.now(), language);
+              userId,
+              problemId,
+              Files.readString(sourceFile.toPath()),
+              LocalDateTime.now(),
+              language);
 
       System.out.println("Compiling...");
       submission.setStatus(COMPILING);
@@ -256,8 +262,6 @@ public class JudgeService {
   }
 
   public void judgeSubmissionById(UUID submissionId) throws IOException {
-    ProblemService problemService = new ProblemService(new ProblemDataBaseRepository());
-    SubmissionService submissionService = new SubmissionService(new SubmissionDataBaseRepository());
 
     Submission submission = submissionService.getSubmissionById(submissionId);
     if (submission == null) {
@@ -273,7 +277,6 @@ public class JudgeService {
 
     String language = submission.getLanguage() != null ? submission.getLanguage() : "java";
 
-    LanguageRunnerFactory runnerFactory = new LanguageRunnerFactory();
     LanguageRunner runner;
     try {
       runner = runnerFactory.getRunner(language);

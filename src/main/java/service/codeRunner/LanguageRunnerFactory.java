@@ -1,5 +1,6 @@
 package service.codeRunner;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 public class LanguageRunnerFactory {
   private final Map<String, LanguageRunner> registry = new HashMap<>();
 
+  @Inject
   public LanguageRunnerFactory() {
     register(new JavaRunner());
     register(new CppRunner());
