@@ -11,7 +11,7 @@ public class LanguageRunnerFactory {
 
   public LanguageRunnerFactory() {
     register(new JavaRunner());
-//    register(new CppRunner());
+    register(new CppRunner());
   }
 
   public void register(LanguageRunner runner) {
