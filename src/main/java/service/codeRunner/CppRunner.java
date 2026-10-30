@@ -19,7 +19,8 @@ public class CppRunner implements LanguageRunner {
     File sourceFile = new File(sourceFilePath);
     File workingDirectory = new File(workDir);
 
-    String binaryName = "solution";
+    boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
+    String binaryName = isWindows ? "solution.exe" : "solution";
 
     ProcessBuilder compiler =
         new ProcessBuilder("clang++", "-O2", "-std=c++17", sourceFile.getName(), "-o", binaryName);
