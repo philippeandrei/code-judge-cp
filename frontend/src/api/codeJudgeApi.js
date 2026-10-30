@@ -1,4 +1,3 @@
-// TODO: Set this to the URL where the Code Judge API is running.
 export const API_BASE_URL = "http://localhost:7070";
 
 // This file is intentionally incomplete.
@@ -34,8 +33,16 @@ export async function createUser(payload) {
 }
 
 export async function deleteUser(id) {
-    // TODO: Send DELETE /users/{id}.
-    return null;
+    const response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) {
+        throw new Error(`Could not delete user: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function getProblems() {
@@ -79,8 +86,16 @@ export async function createProblem(payload) {
 }
 
 export async function deleteProblem(id) {
-    // TODO: Send DELETE /problems/{id}.
-    return null;
+    const response = await fetch(`${API_BASE_URL}/api/problems/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) {
+        throw new Error(`Could not delete problem: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function getContests() {
@@ -113,12 +128,19 @@ export async function createContest(payload) {
 }
 
 export async function deleteContest(id) {
-    // TODO: Send DELETE /contests/{id}.
-    return null;
+    const response = await fetch(`${API_BASE_URL}/api/contests/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) {
+        throw new Error(`Could not delete contest: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function submitCode(payload) {
-    // TODO: Send POST /submit with payload as the JSON request body.
     const response = await fetch(`${API_BASE_URL}/api/submit`, {
         method: "POST",
         headers: {
