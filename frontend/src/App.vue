@@ -52,6 +52,16 @@ let editorView;
 const selectedUser = computed(() => users.value.find((user) => user.id === selectedUserId.value));
 const latestStatus = computed(() => submissions.value[0]?.status || "—");
 const codeLineCount = computed(() => Math.max(1, sourceCode.value.split("\n").length));
+const finalSubmissionStatuses = new Set([
+  "ACCEPTED",
+  "WRONG_ANSWER",
+  "TIME_LIMIT_EXCEEDED",
+  "MEMORY_LIMIT_EXCEEDED",
+  "RUNTIME_ERROR",
+  "COMPILATION_ERROR",
+  "PLAGIARISM_FLAGGED",
+]);
+const submissionPolling = ref(false);
 
 function codeLanguage() {
   return language.value === "java" ? java() : cpp();
@@ -234,10 +244,38 @@ async function viewProblem(id) {
 async function refreshSubmission(id) {
   try {
     const updated = await getSubmission(id);
+    updated.id = id;
     const index = submissions.value.findIndex((submission) => submission.id === id);
     if (index >= 0) submissions.value[index] = updated;
     showNotice(`Submission status: ${updated.status}`);
   } catch (error) { showNotice(error.message, true); }
+}
+
+async function waitForSubmissionStatus(id) {
+  const timeoutMs = 30000;
+  const intervalMs = 2000;
+  const startedAt = Date.now();
+
+  submissionPolling.value = true;
+  try {
+    while (Date.now() - startedAt < timeoutMs) {
+      const updated = await getSubmission(id);
+      updated.id = id;
+      queuedSubmission.value = updated;
+      const index = submissions.value.findIndex((submission) => submission.id === id);
+      if (index >= 0) submissions.value[index] = updated;
+
+      if (finalSubmissionStatuses.has(updated.status)) {
+        return updated;
+      }
+
+      await new Promise((resolve) => window.setTimeout(resolve, intervalMs));
+    }
+
+    throw new Error("Submission status check timed out.");
+  } finally {
+    submissionPolling.value = false;
+  }
 }
 
 async function sendSubmission() {
@@ -246,13 +284,18 @@ async function sendSubmission() {
     return;
   }
   try {
-    queuedSubmission.value = await submitCode({
+    const createdSubmission = await submitCode({
       userId: selectedUserId.value,
       problemId: selectedProblemId.value,
       language: language.value,
       sourceCode: sourceCode.value,
     });
+    queuedSubmission.value = createdSubmission;
     showNotice("Submission accepted and added to the judge queue.");
+    await loadSubmissions();
+
+    const finishedSubmission = await waitForSubmissionStatus(createdSubmission.id);
+    showNotice(`Submission status: ${finishedSubmission.status}`);
     await loadSubmissions();
   } catch (error) { showNotice(`Submission failed: ${error.message}`, true); }
 }
@@ -314,7 +357,7 @@ watch(language, () => {
         <label class="full-width code-label"><span class="code-label-row"><span>Source code</span><span class="code-hint">{{ language === "java" ? "Java" : "C++" }} · {{ codeLineCount }} lines</span></span><div ref="editorContainer" class="code-editor" aria-label="Source code editor"></div></label>
         <div class="form-actions full-width"><button class="button" @click="sendSubmission">Submit to judge</button><span class="muted">Choose a user and problem first.</span></div>
       </div>
-      <div v-if="queuedSubmission" class="submission-result"><strong>Submission queued</strong><br><span class="muted">{{ queuedSubmission.id }}</span></div>
+      <div v-if="queuedSubmission" class="submission-result"><strong>{{ submissionPolling ? "Submission is being judged" : "Submission finished" }}</strong><br><span class="muted">{{ queuedSubmission.id }} · {{ queuedSubmission.status }}</span></div>
     </section>
 
     <section class="panel">

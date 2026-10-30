@@ -1,8 +1,35 @@
 export const API_BASE_URL = "http://localhost:7070";
 
-// This file is intentionally incomplete.
-// Implement each function by calling the matching API endpoint.
-// You may create a shared request helper later, but it is not required.
+async function readResponse(response) {
+  const text = await response.text();
+  let data = null;
+
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+  }
+
+  if (!response.ok) {
+    const message = typeof data === "string"
+      ? data
+      : data?.message || data?.error || `Request failed with status ${response.status}`;
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+async function sendJson(path, payload) {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return readResponse(response);
+}
 
 export async function getUsers() {
     const response = await fetch(`${API_BASE_URL}/api/users`);
