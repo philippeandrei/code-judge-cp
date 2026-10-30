@@ -15,7 +15,6 @@ import java.util.UUID;
 import model.Problem;
 import model.Submission;
 import model.TestCase;
-import repositoryDataBase.ProblemDataBaseRepository;
 import repositoryDataBase.SubmissionDataBaseRepository;
 import service.codeRunner.CompilationResult;
 import service.codeRunner.ExecutionResult;
@@ -77,8 +76,6 @@ public class JudgeService {
         Process runProcess = runner.start();
         BufferedWriter stdin =
             new BufferedWriter(new OutputStreamWriter(runProcess.getOutputStream()));
-        //          OutputStream stdin = runProcess.getOutputStream();
-
         stdin.write(testCase);
         stdin.flush();
         stdin.close();
@@ -153,23 +150,6 @@ public class JudgeService {
         System.out.println("Compilation error: " + compilationResult.getErrorMessage());
         return submission;
       }
-      //
-      //      ProcessBuilder compiler = new ProcessBuilder("javac", fileName);
-      //
-      //      compiler.directory(workingDirectory);
-      //      Process compileProcess = compiler.start();
-      //      String compilationErrors =
-      //          new String(compileProcess.getErrorStream().readAllBytes(),
-      // StandardCharsets.UTF_8);
-
-      //      int exitCode = compileProcess.waitFor();
-      //      if (exitCode != 0) {
-      //        submission.setStatus(COMPILATION_ERROR);
-      //        submission.setErrorMessage(compilationErrors);
-      //        submissionDataBaseRepository.save(submission);
-      //        System.out.println("Compilation error: " + compilationErrors);
-      //        return submission;
-      //      }
 
       List<TestCase> tests = problem.getTestCases();
       int testCounter = 0;
@@ -196,25 +176,6 @@ public class JudgeService {
           submissionDataBaseRepository.save(submission);
           return submission;
         }
-
-        //        ProcessBuilder runner = new ProcessBuilder("java", className);
-        //        runner.directory(workingDirectory);
-        //        Process runProcess = runner.start();
-        //        BufferedWriter stdin =
-        //            new BufferedWriter(new OutputStreamWriter(runProcess.getOutputStream()));
-        //        //          OutputStream stdin = runProcess.getOutputStream();
-        //
-        //        stdin.write(testCase.getInput());
-        //        stdin.flush();
-        //        stdin.close();
-
-        //        BufferedReader reader =
-        //            new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
-        //        StringBuilder output = new StringBuilder();
-        //        String line;
-        //        while ((line = reader.readLine()) != null) {
-        //          output.append(line);
-        //        }
 
         String actualOutput = execResult.getOutput().trim();
         String expectedOutput = testCase.getExpectedOutput().trim();
