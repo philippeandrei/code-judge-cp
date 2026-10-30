@@ -81,6 +81,7 @@ CREATE TABLE submissions
     status VARCHAR(20) NOT NULL,
     submittedTime TIMESTAMP NOT NULL,
     errorMessage Text,
+    language VARCHAR(50) DEFAULT 'java',
     CONSTRAINT fk_submission_user FOREIGN KEY (userId)
         REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_submission_problem FOREIGN KEY (problemId)
@@ -88,5 +89,8 @@ CREATE TABLE submissions
 
 );
 
+
 INSERT INTO CATEGORIES (name, difficulty)
 values ('Math', 'easy');
+
+

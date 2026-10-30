@@ -19,8 +19,8 @@ public class SubmissionService {
   }
 
   public Submission createSubmission(
-      UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime) {
-    Submission submission = new Submission(userId, problemId, sourceCode, submittedTime, "");
+      UUID userId, UUID problemId, String sourceCode, LocalDateTime submittedTime, String language) {
+    Submission submission = new Submission(userId, problemId, sourceCode, submittedTime, "", language);
     submissionDataBaseRepository.save(submission);
     return submission;
   }

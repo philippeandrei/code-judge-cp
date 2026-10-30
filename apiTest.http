@@ -114,7 +114,8 @@ Content-Type: application/json
 {
   "userId": "b30114e7-435c-4fd9-933f-4704ce92baba",
   "problemId": "9d1f924d-0277-4f87-a686-c96bc8a4dee9",
-  "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a - b);\n    }\n}"
+  "sourceCode": "import java.util.Scanner;\n\npublic class Solution {\npublic static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(a + b);\n    }\n}",
+  "language": "java"
 }
 
 ###

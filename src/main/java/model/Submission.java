@@ -12,6 +12,7 @@ public class Submission {
   private SubmissionStatusEnum status;
   private LocalDateTime submittedTime;
   private String errorMessage;
+  private String language;
 
   public Submission() {}
 
@@ -20,7 +21,8 @@ public class Submission {
       UUID problemId,
       String sourceCode,
       LocalDateTime submittedTime,
-      String errorMessage) {
+      String errorMessage,
+      String language) {
     this.id = UUID.randomUUID();
     this.userId = userId;
     this.problemId = problemId;
@@ -28,6 +30,7 @@ public class Submission {
     this.status = SubmissionStatusEnum.PENDING;
     this.submittedTime = submittedTime;
     this.errorMessage = errorMessage;
+    this.language = language;
   }
 
   public String getErrorMessage() {
@@ -96,5 +99,13 @@ public class Submission {
 
   public void setStatus(SubmissionStatusEnum status) {
     this.status = status;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
   }
 }

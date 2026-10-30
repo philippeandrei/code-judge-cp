@@ -39,6 +39,7 @@ public class SubmissionDataBaseRepository implements CrudRepository<Submission, 
             submission.setSubmittedTime(submittedtime.toLocalDateTime());
         }
         submission.setErrorMessage(rs.getString("errormessage"));
+        submission.setLanguage(rs.getString("language"));
         return submission;
     }
 
@@ -54,7 +55,7 @@ public class SubmissionDataBaseRepository implements CrudRepository<Submission, 
         if (submission.getSubmittedTime() == null) {
             submission.setSubmittedTime(LocalDateTime.now());
         }
-        String sql = "MERGE INTO submissions (id, userid, problemid, sourcecode, status, submittedtime, errormessage) KEY(id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "MERGE INTO submissions (id, userid, problemid, sourcecode, status, submittedtime, errormessage, language) KEY(id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setObject(1, submission.getId());
@@ -64,6 +65,7 @@ public class SubmissionDataBaseRepository implements CrudRepository<Submission, 
             stmt.setString(5, submission.getStatus().name());
             stmt.setTimestamp(6, Timestamp.valueOf(submission.getSubmittedTime()));
             stmt.setString(7, submission.getErrorMessage());
+            stmt.setString(8, submission.getLanguage());
             stmt.executeUpdate();
             return submission;
         } catch (SQLException e) {

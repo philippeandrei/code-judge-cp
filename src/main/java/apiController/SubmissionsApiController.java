@@ -36,7 +36,7 @@ public class SubmissionsApiController {
 
     Submission submission =
         submissionService.createSubmission(
-            req.getUserId(), req.getProblemId(), req.getSourceCode(), LocalDateTime.now());
+            req.getUserId(), req.getProblemId(), req.getSourceCode(), LocalDateTime.now(), req.getLanguage());
     submission.setStatus(SubmissionStatusEnum.PENDING);
     submissionService.submissionDataBaseRepository.save(submission);
 
