@@ -14,6 +14,7 @@ public interface IProblemService {
     Problem getProblemByTitle(String title);
     void deleteProblemById(UUID id);
     void addTestCaseToProblem(UUID problemId, String input, String expectedOutput);
+    List<Problem> getAllProblems();
 
 
 }

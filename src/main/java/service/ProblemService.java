@@ -20,8 +20,7 @@ public class ProblemService implements IProblemService {
   }
 
   // String title, String statement, long timeLimitMs, long memoryLimitKb) {
-  public void createProblem(
-      String title, String statement, long timeLimitMs, long memoryLimitKb) {
+  public void createProblem(String title, String statement, long timeLimitMs, long memoryLimitKb) {
     Problem problem = new Problem(title, statement, timeLimitMs, memoryLimitKb);
     problemDataBaseRepository.save(problem);
   }
@@ -66,5 +65,9 @@ public class ProblemService implements IProblemService {
     problem.addTestCase(testCase);
 
     problemDataBaseRepository.save(problem);
+  }
+
+  public List<Problem> getAllProblems() {
+    return problemDataBaseRepository.findAll();
   }
 }

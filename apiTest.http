@@ -62,7 +62,7 @@ Content-Type: application/json
 
 
 ###
-GET localhost:7070/api/problems/a579107a-b0e6-47e2-922a-c860793b8a1a
+GET localhost:7070/api/problems
 
 
 ###
@@ -119,8 +119,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:7070/api/submissions/b7289fc6-36b2-41c6-8b53-4edeb820a361
-
+GET localhost:7070/api/submissions/61fb92a7-0a29-49e8-bc22-0075db32bbb3
 ###
 GET localhost:7070/api/submissions?userId=e480d131-e835-4e7a-b71f-d5e139c9f634
 
