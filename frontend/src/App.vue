@@ -56,8 +56,10 @@ const finalSubmissionStatuses = new Set([
   "ACCEPTED",
   "WRONG_ANSWER",
   "TIME_LIMIT_EXCEEDED",
+  "MEMORY_LIMIT_EXCEEDED",
   "RUNTIME_ERROR",
   "COMPILATION_ERROR",
+  "PLAGIARISM_FLAGGED",
 ]);
 const submissionPolling = ref(false);
 
@@ -242,6 +244,7 @@ async function viewProblem(id) {
 async function refreshSubmission(id) {
   try {
     const updated = await getSubmission(id);
+    updated.id = id;
     const index = submissions.value.findIndex((submission) => submission.id === id);
     if (index >= 0) submissions.value[index] = updated;
     showNotice(`Submission status: ${updated.status}`);
@@ -257,6 +260,7 @@ async function waitForSubmissionStatus(id) {
   try {
     while (Date.now() - startedAt < timeoutMs) {
       const updated = await getSubmission(id);
+      updated.id = id;
       queuedSubmission.value = updated;
       const index = submissions.value.findIndex((submission) => submission.id === id);
       if (index >= 0) submissions.value[index] = updated;

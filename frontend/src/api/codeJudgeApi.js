@@ -1,71 +1,92 @@
-// TODO: Set this to the URL where the Code Judge API is running.
-export const API_BASE_URL = "";
+export const API_BASE_URL = "http://localhost:7070/api";
 
-// This file is intentionally incomplete.
-// Implement each function by calling the matching API endpoint.
-// You may create a shared request helper later, but it is not required.
+async function readResponse(response) {
+  const text = await response.text();
+  let data = null;
+
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+  }
+
+  if (!response.ok) {
+    const message = typeof data === "string"
+      ? data
+      : data?.message || data?.error || `Request failed with status ${response.status}`;
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+async function sendJson(path, payload) {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return readResponse(response);
+}
 
 export async function getUsers() {
-  // TODO: Send GET /users and return the response data.
-  return [];
+  return readResponse(await fetch(`${API_BASE_URL}/users`));
 }
 
 export async function createUser(payload) {
-  // TODO: Send POST /users with payload as the JSON request body.
-  return payload;
+  return sendJson("/users", payload);
 }
 
 export async function deleteUser(id) {
-  // TODO: Send DELETE /users/{id}.
-  return null;
+  return readResponse(await fetch(`${API_BASE_URL}/users/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  }));
 }
 
 export async function getProblems() {
-  // TODO: Send GET /problems and return the response data.
-  return [];
+  return readResponse(await fetch(`${API_BASE_URL}/problems`));
 }
 
 export async function getProblem(id) {
-  // TODO: Send GET /problems/{id} and return the response data.
-  return { id };
+  return readResponse(await fetch(`${API_BASE_URL}/problems/${encodeURIComponent(id)}`));
 }
 
 export async function createProblem(payload) {
-  // TODO: Send POST /problems with payload as the JSON request body.
-  return payload;
+  return sendJson("/problems", payload);
 }
 
 export async function deleteProblem(id) {
-  // TODO: Send DELETE /problems/{id}.
-  return null;
+  return readResponse(await fetch(`${API_BASE_URL}/problems/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  }));
 }
 
 export async function getContests() {
-  // TODO: Send GET /contests and return the response data.
-  return [];
+  return readResponse(await fetch(`${API_BASE_URL}/contests`));
 }
 
 export async function createContest(payload) {
-  // TODO: Send POST /contests with payload as the JSON request body.
-  return payload;
+  return sendJson("/contests", payload);
 }
 
 export async function deleteContest(id) {
-  // TODO: Send DELETE /contests/{id}.
-  return null;
+  return readResponse(await fetch(`${API_BASE_URL}/contests/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  }));
 }
 
 export async function submitCode(payload) {
-  // TODO: Send POST /submit with payload as the JSON request body.
-  return { status: "PENDING", ...payload };
+  return sendJson("/submit", payload);
 }
 
 export async function getSubmission(id) {
-  // TODO: Send GET /submissions/{id} and return the response data.
-  return { id, status: "PENDING" };
+  return readResponse(await fetch(`${API_BASE_URL}/submissions/${encodeURIComponent(id)}`));
 }
 
 export async function getUserSubmissions(userId) {
-  // TODO: Send GET /submissions/?userId={userId} and return the response data.
-  return [];
+  return readResponse(await fetch(
+    `${API_BASE_URL}/submissions/?userId=${encodeURIComponent(userId)}`
+  ));
 }

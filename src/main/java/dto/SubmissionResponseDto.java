@@ -6,6 +6,7 @@ import model.Submission;
 import model.SubmissionStatusEnum;
 
 public class SubmissionResponseDto {
+  private UUID id;
   private UUID userId;
   private UUID problemId;
   private String sourceCode;
@@ -15,11 +16,20 @@ public class SubmissionResponseDto {
   public SubmissionResponseDto() {}
 
   public SubmissionResponseDto(Submission submission) {
+    this.id = submission.getId();
     this.userId = submission.getUserId();
     this.problemId = submission.getProblemId();
     this.sourceCode = submission.getSourceCode();
     this.status = submission.getStatus();
     this.submittedTime = submission.getSubmittedTime();
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
   }
 
   public UUID getUserId() {

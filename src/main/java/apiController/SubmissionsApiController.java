@@ -46,7 +46,14 @@ public class SubmissionsApiController {
   }
 
   public void getById(Context ctx) {
-    UUID id = UUID.fromString(ctx.pathParam("id"));
+    UUID id;
+    try {
+      id = UUID.fromString(ctx.pathParam("id"));
+    } catch (IllegalArgumentException e) {
+      ctx.status(HttpStatus.BAD_REQUEST).json("Invalid submission id");
+      return;
+    }
+
     try {
       SubmissionResponseDto response =
           new SubmissionResponseDto(submissionService.getSubmissionById(id));
