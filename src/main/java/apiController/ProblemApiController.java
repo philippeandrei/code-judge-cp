@@ -5,6 +5,9 @@ import dto.ProblemResponseDto;
 import exception.ProblemNotFoundException;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
@@ -15,9 +18,9 @@ import service.ProblemService;
 
 @Singleton
 public class ProblemApiController {
-  private final IProblemService problemService;
+  private final ProblemService problemService;
   @Inject
-  public ProblemApiController(IProblemService problemService) {
+  public ProblemApiController(ProblemService problemService) {
     this.problemService = problemService;
   }
 
@@ -46,6 +49,14 @@ public class ProblemApiController {
         ctx.json(problem);
       } catch (Exception e) {
         ctx.status(HttpStatus.NOT_FOUND).json("The problem can not be found");
+      }
+    }
+    else{
+      try {
+        List<Problem> problems = problemService.getAllProblems();
+        ctx.json(problems);
+      } catch (Exception e) {
+        ctx.status(HttpStatus.NOT_FOUND).json("No problems were found");
       }
     }
   }

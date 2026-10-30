@@ -21,6 +21,8 @@ public class Main {
 
     Javalin.create(
             config -> {
+              config.bundledPlugins.enableCors(cors -> cors.addRule(it ->  it.allowHost("http://localhost:5500")));
+
               config.routes.get("/api/users", userApiController::getAll);
               config.routes.post("/api/users", userApiController::create);
               config.routes.delete("/api/users/{id}", userApiController::delete);

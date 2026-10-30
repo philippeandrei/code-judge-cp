@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://localhost:7070/api";
+export const API_BASE_URL = "http://localhost:7070";
 
 async function readResponse(response) {
   const text = await response.text();
@@ -32,61 +32,176 @@ async function sendJson(path, payload) {
 }
 
 export async function getUsers() {
-  return readResponse(await fetch(`${API_BASE_URL}/users`));
+    const response = await fetch(`${API_BASE_URL}/api/users`);
+    if (!response.ok) {
+        throw new Error(`Could not load users: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function createUser(payload) {
-  return sendJson("/users", payload);
+    const response = await fetch(`${API_BASE_URL}/api/users`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+        throw new Error(`Could not create user: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function deleteUser(id) {
-  return readResponse(await fetch(`${API_BASE_URL}/users/${encodeURIComponent(id)}`, {
-    method: "DELETE",
-  }));
+    const response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) {
+        throw new Error(`Could not delete user: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function getProblems() {
-  return readResponse(await fetch(`${API_BASE_URL}/problems`));
+    const response = await fetch(`${API_BASE_URL}/api/problems`);
+    if (!response.ok) {
+        throw new Error(`Could not load problems: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function getProblem(id) {
-  return readResponse(await fetch(`${API_BASE_URL}/problems/${encodeURIComponent(id)}`));
+    const response = await fetch(`${API_BASE_URL}/api/problems/${id}`);
+    if (!response.ok) {
+        throw new Error(`Could not load problem: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
+
 }
 
 export async function createProblem(payload) {
-  return sendJson("/problems", payload);
+    const response = await fetch(`${API_BASE_URL}/api/problems`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+        throw new Error(`Could not create problem: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function deleteProblem(id) {
-  return readResponse(await fetch(`${API_BASE_URL}/problems/${encodeURIComponent(id)}`, {
-    method: "DELETE",
-  }));
+    const response = await fetch(`${API_BASE_URL}/api/problems/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) {
+        throw new Error(`Could not delete problem: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function getContests() {
-  return readResponse(await fetch(`${API_BASE_URL}/contests`));
+    const response = await fetch(`${API_BASE_URL}/api/contests`);
+    if (!response.ok) {
+        throw new Error(`Could not load contests: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function createContest(payload) {
-  return sendJson("/contests", payload);
+
+    const response = await fetch(`${API_BASE_URL}/api/contests`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+        throw new Error(`Could not create contests: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function deleteContest(id) {
-  return readResponse(await fetch(`${API_BASE_URL}/contests/${encodeURIComponent(id)}`, {
-    method: "DELETE",
-  }));
+    const response = await fetch(`${API_BASE_URL}/api/contests/${id}`, {
+        method: 'DELETE'
+    });
+    if (!response.ok) {
+        throw new Error(`Could not delete contest: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function submitCode(payload) {
-  return sendJson("/submit", payload);
+    const response = await fetch(`${API_BASE_URL}/api/submit`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+        throw new Error(`Could not create submission: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function getSubmission(id) {
-  return readResponse(await fetch(`${API_BASE_URL}/submissions/${encodeURIComponent(id)}`));
+    const response = await fetch(`${API_BASE_URL}/api/submissions/${id}`);
+    if (!response.ok) {
+        throw new Error(`Could not load submission: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }
 
 export async function getUserSubmissions(userId) {
-  return readResponse(await fetch(
-    `${API_BASE_URL}/submissions/?userId=${encodeURIComponent(userId)}`
-  ));
+    const response = await fetch(`${API_BASE_URL}/api/submissions/?userId=${userId}`);
+    if (!response.ok) {
+        throw new Error(`Could not load submissions: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log(result);
+
+    return result;
 }

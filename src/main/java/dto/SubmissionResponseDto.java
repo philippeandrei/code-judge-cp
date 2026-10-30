@@ -71,4 +71,12 @@ public class SubmissionResponseDto {
   public void setSubmittedTime(LocalDateTime submittedTime) {
     this.submittedTime = submittedTime;
   }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
 }
