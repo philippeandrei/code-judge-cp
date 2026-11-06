@@ -15,6 +15,7 @@ import {
   deleteProblem,
   deleteUser,
   getContests,
+  getContest,
   getProblem,
   getProblems,
   getSubmission,
@@ -68,6 +69,11 @@ const transientSubmissionStatuses = new Set([
   "RUNNING_TESTS",
 ]);
 const submissionPolling = ref(false);
+const contestDetail = ref(null);
+const contestDetailLoading = ref(false);
+const contestDetailError = ref("");
+const isContestDetail = ref(window.location.pathname.startsWith("/contests/"));
+const contestDetailId = ref("");
 
 function codeLanguage() {
   return language.value === "java" ? java() : cpp();
@@ -137,8 +143,69 @@ function showNotice(message, error = false) {
 
 function displayDate(value) {
   if (!value) return "—";
-  const date = new Date(value);
+  const normalizedValue = Array.isArray(value)
+    ? new Date(value[0], value[1] - 1, value[2], value[3] || 0, value[4] || 0, value[5] || 0)
+    : value;
+  const date = new Date(normalizedValue);
   return Number.isNaN(date.valueOf()) ? value : date.toLocaleString();
+}
+
+function dateValue(value) {
+  if (Array.isArray(value)) {
+    return new Date(value[0], value[1] - 1, value[2], value[3] || 0, value[4] || 0, value[5] || 0).valueOf();
+  }
+  return new Date(value).valueOf();
+}
+
+function contestStatus(contest) {
+  const now = Date.now();
+  const start = dateValue(contest?.startTime);
+  const end = dateValue(contest?.endTime);
+  if (Number.isNaN(start) || Number.isNaN(end)) return "STATUS UNAVAILABLE";
+  if (now < start) return "UPCOMING";
+  if (now > end) return "ENDED";
+  return "ONGOING";
+}
+
+function navigateToContest(id) {
+  window.history.pushState({}, "", `/contests/${encodeURIComponent(id)}`);
+  isContestDetail.value = true;
+  contestDetailId.value = id;
+  loadContestDetail();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function navigateToDashboard() {
+  window.history.pushState({}, "", "/");
+  isContestDetail.value = false;
+  contestDetail.value = null;
+  contestDetailError.value = "";
+}
+
+async function loadContestDetail() {
+  if (!contestDetailId.value) return;
+  contestDetailLoading.value = true;
+  contestDetailError.value = "";
+  try {
+    contestDetail.value = await getContest(contestDetailId.value);
+  } catch (error) {
+    contestDetail.value = null;
+    contestDetailError.value = error.message;
+  } finally {
+    contestDetailLoading.value = false;
+  }
+}
+
+function solveProblem(problem) {
+  selectedProblemId.value = problem.id;
+  navigateToDashboard();
+  window.setTimeout(() => document.querySelector(".judge-panel")?.scrollIntoView({ behavior: "smooth" }), 0);
+}
+
+function problemSubmissionStatus(problemId) {
+  if (!selectedUserId.value) return "";
+  const submission = submissions.value.find((item) => item.problemId === problemId);
+  return submission?.status || "";
 }
 
 function statusLabel(status) {
@@ -314,6 +381,17 @@ async function sendSubmission() {
 }
 
 onMounted(() => {
+  const match = window.location.pathname.match(/^\/contests\/([^/]+)$/);
+  if (match) {
+    contestDetailId.value = decodeURIComponent(match[1]);
+  }
+  window.addEventListener("popstate", () => {
+    const currentMatch = window.location.pathname.match(/^\/contests\/([^/]+)$/);
+    isContestDetail.value = Boolean(currentMatch);
+    contestDetailId.value = currentMatch ? decodeURIComponent(currentMatch[1]) : "";
+    if (currentMatch) loadContestDetail();
+    else contestDetail.value = null;
+  });
   editorView = new EditorView({
     state: EditorState.create({
       doc: sourceCode.value,
@@ -322,6 +400,7 @@ onMounted(() => {
     parent: editorContainer.value,
   });
   loadAll();
+  if (contestDetailId.value) loadContestDetail();
 });
 
 watch(language, () => {
@@ -339,6 +418,38 @@ watch(language, () => {
 
   <main class="shell">
     <div v-if="notice.message" class="notice" :class="{ error: notice.error }" role="status">{{ notice.message }}</div>
+    <template v-if="isContestDetail">
+      <section class="panel contest-detail">
+        <button class="small-button back-button" @click="navigateToDashboard">← Back to contests</button>
+        <div v-if="contestDetailLoading" class="detail-state"><span class="loading-spinner" aria-hidden="true"></span><p>Loading contest...</p></div>
+        <div v-else-if="contestDetailError" class="detail-state error-state">
+          <h2>Contest unavailable</h2>
+          <p>{{ contestDetailError }}</p>
+          <button class="button" @click="loadContestDetail">Retry</button>
+        </div>
+        <div v-else-if="!contestDetail" class="detail-state error-state"><h2>Contest not found</h2><p>We could not find this contest.</p></div>
+        <template v-else>
+          <div class="contest-detail-heading">
+            <div><p class="eyebrow">Contest</p><h2>{{ contestDetail.name || "Untitled contest" }}</h2></div>
+            <span class="status-badge status-unknown">{{ contestStatus(contestDetail) }}</span>
+          </div>
+          <div class="contest-meta">
+            <div><span class="summary-label">Starts</span><strong>{{ displayDate(contestDetail.startTime) }}</strong></div>
+            <div><span class="summary-label">Ends</span><strong>{{ displayDate(contestDetail.endTime) }}</strong></div>
+          </div>
+          <div class="section-heading problem-list-heading"><div><h2>Problems</h2><p class="section-subtitle">Solve challenges in contest order.</p></div></div>
+          <p v-if="!contestDetail.problems?.length" class="muted">No problems are available for this contest yet.</p>
+          <div v-else class="contest-problem-list">
+            <article v-for="(problem, index) in contestDetail.problems" :key="problem.id" class="contest-problem-row">
+              <div class="problem-index">{{ String.fromCharCode(65 + index) }}</div>
+              <div class="problem-info"><h3>{{ problem.title || "Untitled problem" }}</h3><p class="clamp">{{ problem.statement || "No statement available." }}</p><span class="meta">{{ problem.timeLimitMs }} ms · {{ problem.memoryLimitKb }} KB<span v-if="problemSubmissionStatus(problem.id)"> · {{ statusLabel(problemSubmissionStatus(problem.id)) }}</span></span></div>
+              <button class="button" @click="solveProblem(problem)">Solve</button>
+            </article>
+          </div>
+        </template>
+      </section>
+    </template>
+    <template v-else>
     <section class="summary-grid">
       <article class="summary-card"><span class="summary-icon">◎</span><div><span class="summary-label">Users</span><strong>{{ users.length }}</strong></div></article>
       <article class="summary-card"><span class="summary-icon">◇</span><div><span class="summary-label">Problems</span><strong>{{ problems.length }}</strong></div></article>
@@ -358,10 +469,10 @@ watch(language, () => {
 
     <section class="panel resource-panel">
       <div class="section-heading"><div class="section-title"><span class="section-icon contest-icon">◷</span><div><h2>Contests</h2><p class="section-subtitle">Timed events</p></div></div><button class="button" @click="openModal('contest')">Add contest</button></div>
-      <div class="resource-grid"><p v-if="!contests.length" class="muted">No contests yet.</p><article v-for="contest in contests" :key="contest.id" class="resource-card"><div><h3>{{ contest.name }}</h3><p>{{ displayDate(contest.startTime) }}</p><span class="meta">Ends {{ displayDate(contest.endTime) }}</span></div><button class="small-button danger" @click="remove('contest', contest.id)" aria-label="Delete contest">×</button></article></div>
+      <div class="resource-grid"><p v-if="!contests.length" class="muted">No contests yet.</p><article v-for="contest in contests" :key="contest.id" class="resource-card"><div><h3>{{ contest.name }}</h3><p>{{ displayDate(contest.startTime) }}</p><span class="meta">Ends {{ displayDate(contest.endTime) }}</span></div><div class="item-actions"><button class="small-button" @click="navigateToContest(contest.id)">Open contest</button><button class="small-button danger" @click="remove('contest', contest.id)" aria-label="Delete contest">×</button></div></article></div>
     </section>
 
-    <section class="panel">
+    <section class="panel judge-panel">
       <div class="section-heading"><div><p class="eyebrow">Judge</p><h2>Submit code</h2></div><span class="tag">Async queue</span></div>
       <div class="form-grid">
         <label>User<select v-model="selectedUserId" @change="loadSubmissions"><option v-for="user in users" :key="user.id" :value="user.id">{{ user.username }} ({{ user.id.slice(0, 8) }})</option></select></label>
@@ -384,6 +495,7 @@ watch(language, () => {
       <div class="section-heading"><div><p class="eyebrow">History</p><h2>Submissions</h2></div></div>
       <div class="card-list"><p v-if="!submissions.length" class="muted">Select a user to view submissions.</p><article v-for="submission in submissions" :key="submission.id" class="item-card"><div><h3><span class="status-badge" :class="statusClass(submission.status)">{{ statusLabel(submission.status) }}</span></h3><p>{{ submission.language || "java" }} · {{ displayDate(submission.submittedTime) }} · {{ submission.id }}</p></div><button class="small-button" @click="refreshSubmission(submission.id)">Refresh status</button></article></div>
     </section>
+    </template>
   </main>
 
   <div v-if="modal" class="modal-backdrop" @click.self="closeModal">

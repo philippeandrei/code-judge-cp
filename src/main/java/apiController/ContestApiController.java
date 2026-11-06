@@ -58,8 +58,8 @@ public class ContestApiController {
   }
 
   public void getContestId(Context ctx) {
-    UUID id = UUID.fromString(ctx.pathParam("id"));
     try {
+      UUID id = UUID.fromString(ctx.pathParam("id"));
       ContestResponseDto response = new ContestResponseDto(contestService.getContestById(id));
       ctx.json(response);
     } catch (Exception e) {
