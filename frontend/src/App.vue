@@ -61,6 +61,12 @@ const finalSubmissionStatuses = new Set([
   "COMPILATION_ERROR",
   "PLAGIARISM_FLAGGED",
 ]);
+const transientSubmissionStatuses = new Set([
+  "PENDING",
+  "RUNNING",
+  "COMPILING",
+  "RUNNING_TESTS",
+]);
 const submissionPolling = ref(false);
 
 function codeLanguage() {
@@ -133,6 +139,17 @@ function displayDate(value) {
   if (!value) return "—";
   const date = new Date(value);
   return Number.isNaN(date.valueOf()) ? value : date.toLocaleString();
+}
+
+function statusLabel(status) {
+  return status?.replaceAll("_", " ") || "UNKNOWN";
+}
+
+function statusClass(status) {
+  if (transientSubmissionStatuses.has(status)) return "status-transient";
+  if (status === "ACCEPTED") return "status-accepted";
+  if (finalSubmissionStatuses.has(status)) return "status-failed";
+  return "status-unknown";
 }
 
 function parseTestCases(value) {
@@ -252,13 +269,11 @@ async function refreshSubmission(id) {
 }
 
 async function waitForSubmissionStatus(id) {
-  const timeoutMs = 30000;
   const intervalMs = 2000;
-  const startedAt = Date.now();
 
   submissionPolling.value = true;
   try {
-    while (Date.now() - startedAt < timeoutMs) {
+    while (true) {
       const updated = await getSubmission(id);
       updated.id = id;
       queuedSubmission.value = updated;
@@ -271,8 +286,6 @@ async function waitForSubmissionStatus(id) {
 
       await new Promise((resolve) => window.setTimeout(resolve, intervalMs));
     }
-
-    throw new Error("Submission status check timed out.");
   } finally {
     submissionPolling.value = false;
   }
@@ -355,14 +368,21 @@ watch(language, () => {
         <label>Problem<select v-model="selectedProblemId"><option v-for="problem in problems" :key="problem.id" :value="problem.id">{{ problem.title }} ({{ problem.id.slice(0, 8) }})</option></select></label>
         <label>Language<select v-model="language"><option value="java">Java</option><option value="cpp">C++</option></select></label>
         <label class="full-width code-label"><span class="code-label-row"><span>Source code</span><span class="code-hint">{{ language === "java" ? "Java" : "C++" }} · {{ codeLineCount }} lines</span></span><div ref="editorContainer" class="code-editor" aria-label="Source code editor"></div></label>
-        <div class="form-actions full-width"><button class="button" @click="sendSubmission">Submit to judge</button><span class="muted">Choose a user and problem first.</span></div>
+        <div class="form-actions full-width"><button class="button" :disabled="submissionPolling" @click="sendSubmission">{{ submissionPolling ? "Submission in progress..." : "Submit to judge" }}</button><span class="muted">Choose a user and problem first.</span></div>
       </div>
-      <div v-if="queuedSubmission" class="submission-result"><strong>{{ submissionPolling ? "Submission is being judged" : "Submission finished" }}</strong><br><span class="muted">{{ queuedSubmission.id }} · {{ queuedSubmission.status }}</span></div>
+      <div v-if="queuedSubmission" class="submission-result" :class="statusClass(queuedSubmission.status)" aria-live="polite">
+        <div class="submission-status-heading">
+          <span v-if="submissionPolling" class="loading-spinner" aria-hidden="true"></span>
+          <strong>{{ submissionPolling ? "Submission is being judged" : "Submission finished" }}</strong>
+        </div>
+        <span class="status-badge" :class="statusClass(queuedSubmission.status)">{{ statusLabel(queuedSubmission.status) }}</span>
+        <span class="muted">{{ queuedSubmission.id }}</span>
+      </div>
     </section>
 
     <section class="panel">
       <div class="section-heading"><div><p class="eyebrow">History</p><h2>Submissions</h2></div></div>
-      <div class="card-list"><p v-if="!submissions.length" class="muted">Select a user to view submissions.</p><article v-for="submission in submissions" :key="submission.id" class="item-card"><div><h3>{{ submission.status }}</h3><p>{{ submission.language || "java" }} · {{ displayDate(submission.submittedTime) }} · {{ submission.id }}</p></div><button class="small-button" @click="refreshSubmission(submission.id)">Refresh status</button></article></div>
+      <div class="card-list"><p v-if="!submissions.length" class="muted">Select a user to view submissions.</p><article v-for="submission in submissions" :key="submission.id" class="item-card"><div><h3><span class="status-badge" :class="statusClass(submission.status)">{{ statusLabel(submission.status) }}</span></h3><p>{{ submission.language || "java" }} · {{ displayDate(submission.submittedTime) }} · {{ submission.id }}</p></div><button class="small-button" @click="refreshSubmission(submission.id)">Refresh status</button></article></div>
     </section>
   </main>
 
