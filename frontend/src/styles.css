@@ -81,6 +81,20 @@ textarea { resize: vertical; line-height: 1.45; }
 .status-accepted { color: #18734f; background: #d7f0e5; }
 .status-failed { color: #9c2c40; background: #ffe0e5; }
 .status-unknown { color: var(--muted); background: #edf0f5; }
+.contest-detail { max-width: 900px; margin-inline: auto; }
+.back-button { margin-bottom: 24px; }
+.contest-detail-heading, .contest-meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.contest-meta { justify-content: flex-start; margin: 24px 0; padding: 16px; background: #f7f8fc; border-radius: 10px; gap: 42px; }
+.contest-meta strong { display: block; font-size: .9rem; }
+.problem-list-heading { margin-top: 28px; margin-bottom: 10px; }
+.contest-problem-list { display: grid; gap: 10px; }
+.contest-problem-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 15px; border: 1px solid var(--line); border-radius: 10px; }
+.problem-index { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: #edf0ff; color: var(--primary); font-weight: 800; }
+.problem-info h3 { margin: 0 0 5px; font-size: .98rem; }
+.problem-info p { margin: 0; color: var(--muted); font-size: .82rem; }
+.detail-state { display: grid; justify-items: center; gap: 12px; padding: 48px 16px; text-align: center; }
+.detail-state p, .detail-state h2 { margin: 0; }
+.error-state { color: var(--muted); }
 @keyframes spin { to { transform: rotate(360deg); } }
 .button:disabled { cursor: wait; opacity: .7; }
 .modal-backdrop { position: fixed; inset: 0; display: grid; place-items: center; padding: 16px; background: rgba(14, 23, 49, .5); }
@@ -88,4 +102,4 @@ textarea { resize: vertical; line-height: 1.45; }
 .modal-card .section-heading { margin-bottom: 2px; }
 .icon-button { border: 0; background: transparent; font-size: 1.6rem; color: var(--muted); }
 code { background: #eef1f7; border-radius: 4px; padding: 1px 4px; }
-@media (max-width: 760px) { .topbar { align-items: start; flex-direction: column; } .summary-grid { grid-template-columns: repeat(2, 1fr); } .form-grid, .form-grid.compact { grid-template-columns: 1fr; } .item-card { align-items: start; flex-direction: column; } .resource-grid { grid-template-columns: 1fr; } .api-status { width: 100%; justify-content: space-between; } }
+@media (max-width: 760px) { .topbar { align-items: start; flex-direction: column; } .summary-grid { grid-template-columns: repeat(2, 1fr); } .form-grid, .form-grid.compact { grid-template-columns: 1fr; } .item-card { align-items: start; flex-direction: column; } .resource-grid { grid-template-columns: 1fr; } .api-status { width: 100%; justify-content: space-between; } .contest-detail-heading { align-items: flex-start; flex-direction: column; } .contest-meta { align-items: flex-start; flex-direction: column; gap: 12px; } .contest-problem-row { grid-template-columns: 32px minmax(0, 1fr); } .contest-problem-row .button { grid-column: 2; justify-self: start; } }
