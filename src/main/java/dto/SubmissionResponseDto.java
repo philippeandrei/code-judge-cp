@@ -24,13 +24,6 @@ public class SubmissionResponseDto {
     this.submittedTime = submission.getSubmittedTime();
   }
 
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
 
   public UUID getUserId() {
     return userId;
